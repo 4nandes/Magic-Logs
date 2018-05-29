@@ -27,11 +27,11 @@ async def on_message(message):
     if message.author == client.user:
 	    return
     if message.content.startswith("$flex"):
-        await client.send_message(message.channel, "Please enter the name of the account you would like to check: ")
-        unCaller = await client.wait_for_message(timeout=10.0, author=message.author)
+        await client.send_message(message.author, "Enter the name of your account: ")
+        unCaller = await client.wait_for_message(timeout=15.0, author=message.author)
         unCaller = unCaller.content
-        await client.send_message(message.channel, "Please enter the name of the account you would like to check: ")
-        unRec = await client.wait_for_message(timeout=10.0, author=message.author)
+        await client.send_message(message.author, "Enter the name of the account that we are flexing on today: ")
+        unRec = await client.wait_for_message(timeout=15.0, author=message.author)
         unRec = unRec.content
         unCaller = unCaller.replace(" ","%20")
         unRec = unRec.replace(" ","%20")
@@ -43,12 +43,12 @@ async def on_message(message):
             stew = BeautifulSoup(ranch,'lxml')
             dataRec = stew.get_text().split("\n")
         except:
-            await client.send_message(message.channel, "That is not a valid username")
+            await client.send_message(message.author, "That is not a valid username")
             return
 
         unRec = unRec.replace("%20"," ")
-        await client.send_message(message.channel, "What skill are you comparing?")
-        skill = await client.wait_for_message(timeout=10.0, author=message.author)
+        await client.send_message(message.author, "What skill are you comparing?")
+        skill = await client.wait_for_message(timeout=15.0, author=message.author)
         skill = skill.content
         try:
             lvlCaller = dataCaller[book[skill]].split(",") 
@@ -56,8 +56,9 @@ async def on_message(message):
             if lvlCaller[1] > lvlRec[1]:
                 await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\nFlex Strength: %d Levels %s XP" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
         except:
-            await client.send_message(message.channel, "That skill dowes not exist")
+            await client.send_message(message.author, "That skill dowes not exist")
             return
+        return
 
 @client.event
 async def on_ready():
