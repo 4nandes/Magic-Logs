@@ -47,6 +47,7 @@ async def on_message(message):
             return
 
         unRec = unRec.replace("%20"," ")
+        unCaller = unCaller.replace("%20"," ")
         await client.send_message(message.author, "What skill are you comparing?")
         skill = await client.wait_for_message(timeout=15.0, author=message.author)
         skill = skill.content
@@ -54,7 +55,7 @@ async def on_message(message):
             lvlCaller = dataCaller[book[skill]].split(",") 
             lvlRec = dataRec[book[skill]].split(",")
             if lvlCaller[1] > lvlRec[1]:
-                await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\nFlex Strength: %d Levels %s XP" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
+                await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\nFlex Strength: %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
         except:
             await client.send_message(message.author, "That skill dowes not exist")
             return
