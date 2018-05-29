@@ -4,6 +4,8 @@ from urllib.request import urlopen
 
 
 client = discord.Client()
+botSecret = open("botSecret.txt","r")
+code = botSecret.read()
 skillNames = {0:'Overall', 1:'Attack', 2:'Defence', 
             3:'Strength', 4:'Hitpoints', 5:'Ranged', 
             6:'prayer', 7:'magic', 8:'cooking', 
@@ -68,4 +70,4 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
-client.run('')
+client.run(code)
