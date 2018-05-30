@@ -8,11 +8,11 @@ botSecret = open("botSecret.txt","r")
 code = botSecret.read()
 skillNames = {0:'Overall', 1:'Attack', 2:'Defence', 
             3:'Strength', 4:'Hitpoints', 5:'Ranged', 
-            6:'prayer', 7:'magic', 8:'cooking', 
+            6:'Prayer', 7:'Magic', 8:'Cooking', 
             9:'Woodcutting', 10:'Fletching', 11:'Fishing', 
             12:'Firemaking', 13:'Crafting', 14:'Smithing', 
             15:'Mining', 16:'Herblore', 17:'Agility', 
-            18:'Theiving', 19:'Slayer', 20:'Farming', 
+            18:'Thieving', 19:'Slayer', 20:'Farming', 
             21:'Runecrafting', 22:'Hunter', 23:'Construction'}
 book = {'overall':0, 'attack':1, 'defence':2, 
         'strength':3, 'hitpoints':4, 'ranged':5, 
@@ -20,7 +20,7 @@ book = {'overall':0, 'attack':1, 'defence':2,
         'woodcutting':9, 'fletching':10, 'fishing':11, 
         'firemaking':12, 'crafting':13, 'smithing':14, 
         'mining':15, 'herblore':16, 'agility':17, 
-        'theiving':18, 'slayer':19, 'farming':20, 
+        'thieving':18, 'slayer':19, 'farming':20, 
         'runecrafting':21, 'hunter':22, 'construction':23}
 
 
@@ -59,7 +59,7 @@ async def on_message(message):
             if lvlCaller[1] > lvlRec[1]:
                 await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\nFlex Strength: %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
         except:
-            await client.send_message(message.author, "That skill dowes not exist")
+            await client.send_message(message.author, "That skill does not exist")
             return
         return
 
