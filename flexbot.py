@@ -57,17 +57,20 @@ async def on_message(message):
             lvlCaller = dataCaller[book[skill]].split(",") 
             lvlRec = dataRec[book[skill]].split(",")
             if lvlCaller[1] > lvlRec[1]:
-                await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\nFlex Strength: %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
+                await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
         except:
             await client.send_message(message.author, "That skill does not exist")
             return
         return
 
+
 @client.event
 async def on_ready():
     print('Logged in as')
     print(client.user.name)
+    await client.change_presence(game=discord.Game(name="you sleep", type=3))
     print(client.user.id)
     print('------')
 
 client.run(code)
+
