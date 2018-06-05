@@ -1,3 +1,15 @@
+#░░░░░░░░▄▄▄▀▀▀▄▄███▄░░░░░░░░░░░░░░
+#░░░░░▄▀▀░░░░░░░▐░▀██▌░░░░░░░░░░░░░
+#░░░▄▀░░░░▄▄███░▌▀▀░▀█░░░░░░░░░░░░░
+#░░▄█░░▄▀▀▒▒▒▒▒▄▐░░░░█▌░░░░░░░░░░░░
+#░▐█▀▄▀▄▄▄▄▀▀▀▀▌░░░░░▐█▄░░░░░░░░░░░
+#░▌▄▄▀▀░░░░░░░░▌░░░░▄███████▄░░░░░░
+#░░░░░░░░░░░░▐░░░░▐███████████▄░░░
+#░░Author:░░░░▐░░░░▐█████████████▄
+#░░░Nathan░░░░░▀▄░░░▐█████████████▄
+#░░░░░Fernandes░░░▀▄▄███████████████
+#░░░░░░░░░░░░░░░░░░░░░░░░█▀██████░░
+
 import discord
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -73,15 +85,16 @@ async def on_message(message):
             return
         dataCaller = soup.get_text().split("\n")
         Caller = Caller.content.replace("%20"," ")
-        msg = "```"
-        msg += Caller + "'s stats:\n\n"
+        msg = "**" + Caller + "'s stats:**\n"
         for x in range(0,24):
             info = dataCaller[x].split(",")
-            adder = "-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "\n"
+            adder = "`-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
             msg += adder
-        msg += "```"
         await client.send_message(message.channel, msg)
         return
+    elif message.content.startswith("$pie"):
+        await client.send_message(message.author, "Enter the name of your accout: ")
+        Caller = await client.wait_for_message(timeout=15.0, author=message.author)
              
 @client.event
 async def on_ready():
