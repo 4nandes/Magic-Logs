@@ -62,8 +62,25 @@ async def on_message(message):
             await client.send_message(message.author, "That skill does not exist")
             return
         return
-
-
+    elif message.content.startswith("$stats"):
+        await client.send_message(message.author, "Enter the name of your accout: ")
+        Caller = await client.wait_for_message(timeout=15.0, author=message.author)
+        try:
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + Caller.content)
+            soup = BeautifulSoup(sauce,'lxml')
+        except:
+            await client.send_message(message.author, "That user does not exist")
+            return
+        dataCaller = soup.get_text().split("\n")
+        Caller = Caller.content.replace("%20"," ")
+        msg = ""
+        msg += "***" + Caller + "'s stats:***\n\n"
+        for x in range(0,24):
+            info = dataCaller[x].split(",")
+            msg += "**" + skillNames[x] + "** Lvl: " + info[1] + " XP: " + info[2] + "\n"
+        await client.send_message(message.channel, msg)
+        return
+             
 @client.event
 async def on_ready():
     print('Logged in as')
