@@ -13,6 +13,9 @@
 import discord
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+import plotly.plotly as py
+import plotly.graph_objs as go
+import os
 
 
 client = discord.Client()
@@ -34,6 +37,9 @@ book = {'overall':0, 'attack':1, 'defence':2,
         'mining':15, 'herblore':16, 'agility':17, 
         'thieving':18, 'slayer':19, 'farming':20, 
         'runecrafting':21, 'hunter':22, 'construction':23}
+labels = []
+for key in book.items():
+    labels.append(key[0])
 
 
 @client.event
@@ -93,8 +99,29 @@ async def on_message(message):
         await client.send_message(message.channel, msg)
         return
     elif message.content.startswith("$pie"):
+        levels = []
+        xp = []
         await client.send_message(message.author, "Enter the name of your accout: ")
         Caller = await client.wait_for_message(timeout=15.0, author=message.author)
+        try:
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + Caller.content)
+            soup = BeautifulSoup(sauce,'lxml')
+        except:
+            await client.send_message(message.author, "That user does not exist")
+            return
+        dataCaller = soup.get_text().split("\n")
+        for x in range(1,24):
+            info = dataCaller[x].split(",")
+            levels.append(int(info[2]))
+
+        trace = go.Pie(labels=labels[1:], values=levels, textinfo="label", showlegend=False)
+        layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',width=1000, height=1170, font=dict(family='sans serif', size=26, color='#ffffff'))
+        fig = go.Figure(data=[trace], layout=layout)
+        py.image.save_as(fig, filename=(Caller.content + '.png'))
+        await client.send_message(message.channel,("**" + Caller.content + "'s XP breakdown:**\n" ))
+        await client.send_file(message.channel,(Caller.content + '.png'))
+        os.remove((Caller.content + '.png'))
+        return
              
 @client.event
 async def on_ready():
