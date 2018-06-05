@@ -73,11 +73,13 @@ async def on_message(message):
             return
         dataCaller = soup.get_text().split("\n")
         Caller = Caller.content.replace("%20"," ")
-        msg = ""
-        msg += "***" + Caller + "'s stats:***\n\n"
+        msg = "```"
+        msg += Caller + "'s stats:\n\n"
         for x in range(0,24):
             info = dataCaller[x].split(",")
-            msg += "**" + skillNames[x] + "** Lvl: " + info[1] + " XP: " + info[2] + "\n"
+            adder = "-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "\n"
+            msg += adder
+        msg += "```"
         await client.send_message(message.channel, msg)
         return
              
