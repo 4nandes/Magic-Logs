@@ -72,8 +72,8 @@ async def on_message(message):
             lvlRec = dataRec[book[skill]].split(",")
             if lvlCaller[1] > lvlRec[1]:
                 await client.send_message(message.channel, 
-                "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" 
-                %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
+                "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
+                %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
                 trace1 = go.Bar(
                     x= [unCaller, unRec],
                     y= [int(lvlCaller[2]),int(lvlRec[2])],
