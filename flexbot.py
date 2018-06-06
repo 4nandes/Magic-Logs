@@ -53,8 +53,6 @@ async def on_message(message):
         await client.send_message(message.author, "Enter the name of the account that we are flexing on today: ")
         unRec = await client.wait_for_message(timeout=15.0, author=message.author)
         unRec = unRec.content
-        unCaller = unCaller.replace(" ","%20")
-        unRec = unRec.replace(" ","%20")
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + unCaller)
             soup = BeautifulSoup(sauce,'lxml')
@@ -66,8 +64,6 @@ async def on_message(message):
             await client.send_message(message.author, "That is not a valid username")
             return
 
-        unRec = unRec.replace("%20"," ")
-        unCaller = unCaller.replace("%20"," ")
         await client.send_message(message.author, "What skill are you comparing?")
         skill = await client.wait_for_message(timeout=15.0, author=message.author)
         skill = skill.content
@@ -75,23 +71,36 @@ async def on_message(message):
             lvlCaller = dataCaller[book[skill]].split(",") 
             lvlRec = dataRec[book[skill]].split(",")
             if lvlCaller[1] > lvlRec[1]:
-                await client.send_message(message.channel, "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
+                await client.send_message(message.channel, 
+                "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP\n\n*(%s is lvl.%d %s with %s XP)*" 
+                %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2]))),unCaller,int(lvlCaller[1]),skill,"{:,}".format(int(lvlCaller[2]))))
+                trace1 = go.Bar(
+                    x= [unCaller, unRec],
+                    y= [int(lvlCaller[2]),int(lvlRec[2])],
+                    text= ["{:,}".format(int(lvlCaller[2])),"{:,}".format(int(lvlRec[2]))],
+                    textposition = 'auto',
+                    marker=dict(color=['#16a085','#cb4335'])
+                )
+                layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',font=dict(family='sans serif', size=26, color='#ffffff'))
+                fig = go.Figure(data=[trace1], layout=layout)
+                py.image.save_as(fig, filename=(unCaller + '.png'))
+                await client.send_file(message.channel,(unCaller + '.png'))
+                await client.send_message(message.channel, "*Sit kid*")
+                os.remove((unCaller + '.png'))
         except:
             await client.send_message(message.author, "That skill does not exist")
             return
         return
     elif message.content.startswith("$stats"):
-        await client.send_message(message.author, "Enter the name of your accout: ")
-        Caller = await client.wait_for_message(timeout=15.0, author=message.author)
+        data = " ".join(message.content.split(" ")[1:])
         try:
-            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + Caller.content)
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         except:
             await client.send_message(message.author, "That user does not exist")
             return
         dataCaller = soup.get_text().split("\n")
-        Caller = Caller.content.replace("%20"," ")
-        msg = "**" + Caller + "'s stats:**\n"
+        msg = "**" + data + "'s stats:**\n"
         for x in range(0,24):
             info = dataCaller[x].split(",")
             adder = "`-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
@@ -100,11 +109,9 @@ async def on_message(message):
         return
     elif message.content.startswith("$pie"):
         levels = []
-        xp = []
-        await client.send_message(message.author, "Enter the name of your accout: ")
-        Caller = await client.wait_for_message(timeout=15.0, author=message.author)
+        data = " ".join(message.content.split(" ")[1:])
         try:
-            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + Caller.content)
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         except:
             await client.send_message(message.author, "That user does not exist")
@@ -113,14 +120,20 @@ async def on_message(message):
         for x in range(1,24):
             info = dataCaller[x].split(",")
             levels.append(int(info[2]))
-
-        trace = go.Pie(labels=labels[1:], values=levels, textinfo="label", showlegend=False)
-        layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',width=1000, height=1170, font=dict(family='sans serif', size=26, color='#ffffff'))
+        trace = go.Pie(
+            labels=labels[1:], 
+            values=levels, 
+            textinfo="label", 
+            showlegend=False,
+            marker=dict(line=dict(color='#000000', width=1.5)),
+            textposition="inside"
+            )
+        layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',width=1000, height=1000, font=dict(family='sans serif', size=26, color='#000000'))
         fig = go.Figure(data=[trace], layout=layout)
-        py.image.save_as(fig, filename=(Caller.content + '.png'))
-        await client.send_message(message.channel,("**" + Caller.content + "'s XP breakdown:**\n" ))
-        await client.send_file(message.channel,(Caller.content + '.png'))
-        os.remove((Caller.content + '.png'))
+        py.image.save_as(fig, filename=(data + '.png'))
+        await client.send_message(message.channel,("**" + data + "'s XP breakdown:**\n" ))
+        await client.send_file(message.channel,(data + '.png'))
+        os.remove((data + '.png'))
         return
              
 @client.event
