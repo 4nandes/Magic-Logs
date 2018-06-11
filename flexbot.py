@@ -70,7 +70,6 @@ async def on_message(message):
         try:
             lvlCaller = dataCaller[book[skill]].split(",") 
             lvlRec = dataRec[book[skill]].split(",")
-            print("Caller level",type(lvlCaller[1]),"\nReciever Level",type(lvlRec[1]))
             if int(lvlCaller[1]) > int(lvlRec[1]):
                 await client.send_message(message.channel, 
                 "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
