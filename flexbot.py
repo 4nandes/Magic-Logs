@@ -16,6 +16,7 @@ from urllib.request import urlopen
 import plotly.plotly as py
 import plotly.graph_objs as go
 import os
+from math import floor
 
 
 client = discord.Client()
@@ -125,16 +126,100 @@ async def on_message(message):
             values=levels, 
             textinfo="label", 
             showlegend=False,
-            marker=dict(line=dict(color='#000000', width=1.5)),
+            marker=dict(
+                line=dict(
+                    color='#000000', 
+                    width=1.5
+                    )
+                ),
             textposition="inside"
             )
-        layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',width=1000, height=1000, font=dict(family='sans serif', size=26, color='#000000'))
+        
+        layout = go.Layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            width=1000, height=1000, 
+            font=dict(
+                family='sans serif', 
+                size=26, 
+                color='#000000'
+                )
+            )
         fig = go.Figure(data=[trace], layout=layout)
         py.image.save_as(fig, filename=(data + '.png'))
         await client.send_message(message.channel,("**" + data + "'s XP breakdown:**\n" ))
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
         return
+    elif message.content.startswith("$combat"):
+        data = " ".join(message.content.split(" ")[1:])
+        try:
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
+            soup = BeautifulSoup(sauce,'lxml')
+        except:
+            await client.send_message(message.author, "That user does not exist")
+            return
+        dataCaller = soup.get_text().split("\n")
+        attack = float(dataCaller[1].split(",")[1])
+        defense = float(dataCaller[2].split(",")[1])
+        strength = float(dataCaller[3].split(",")[1])
+        hitpoints = float(dataCaller[4].split(",")[1])
+        ranged = float(dataCaller[5].split(",")[1])
+        prayer = float(dataCaller[6].split(",")[1])
+        magic = float(dataCaller[7].split(",")[1])
+        base = .25*(defense + hitpoints + floor(prayer/2))
+        melee = .325*(attack + strength)
+        ranged = .325*(floor(ranged/2) + ranged)
+        mage = .325*(floor(magic/2) + magic)
+        comType = ""
+        if melee > ranged:
+            if melee > mage:
+                comType = "Warrior"
+                base = base + melee
+            else:
+                comType = "Mage"
+                base = base + mage
+        elif ranged > mage:
+            comType = "Ranger"
+            base = base + ranged
+        else:
+            comType = "Mage"
+            base = base + mage
+        trace = go.Pie(
+            labels=["(Attack + Strength)/2","Ranged","Magic"], 
+            values=[(attack + strength)/2,ranged,mage], 
+            textinfo="label", 
+            showlegend=False,
+            marker=dict(line=dict(color='#000000', width=1.5)),
+            textposition="inside",
+            domain=dict(x=[0,4])
+            )
+        trace1 = go.Bar(
+                    x= ["Hitpoints","Defense","Prayer"],
+                    y= [hitpoints,defense,prayer],
+                    textposition = 'auto',
+                    showlegend=False,
+                    marker=dict(color=['#8b0000','#8b0000',"#8b0000"])
+                )
+        layout = go.Layout(
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            width=1000, 
+            height=1000, 
+            font=dict(
+                family='sans serif', 
+                size=40, 
+                color='#000000'
+                ) 
+            )
+        fig = go.Figure(data=[trace,trace1], layout=layout)
+        py.image.save_as(fig, filename=(data + '.png'))
+        await client.send_message(message.channel, "**CURRENTLY BROKEN COMMAND \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
+        await client.send_file(message.channel,(data + '.png'))
+        os.remove((data + '.png'))
+        return
+
+        
              
 @client.event
 async def on_ready():
