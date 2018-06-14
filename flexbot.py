@@ -38,9 +38,13 @@ book = {'overall':0, 'attack':1, 'defence':2,
         'mining':15, 'herblore':16, 'agility':17, 
         'thieving':18, 'slayer':19, 'farming':20, 
         'runecrafting':21, 'hunter':22, 'construction':23}
-labels = []
-for key in book.items():
-    labels.append(key[0])
+labels = ['Attack','Defence','Strength','Hitpoints',
+        'Ranged','Prayer','Magic','Cooking','Woodcutting',
+        'Fletching','Fishing','Firemaking','Crafting',
+        'Smithing','Mining','Herblore','Agility',
+        'Theiving', 'Slayer', 'Farming','Runecrafting',
+        'Hunter', 'Construction']
+
 
 
 @client.event
@@ -122,7 +126,7 @@ async def on_message(message):
             info = dataCaller[x].split(",")
             levels.append(int(info[2]))
         trace = go.Pie(
-            labels=labels[1:], 
+            labels=labels, 
             values=levels, 
             textinfo="label", 
             showlegend=False,
