@@ -46,8 +46,6 @@ labels = ['Attack','Defence','Strength','Hitpoints',
         'Theiving', 'Slayer', 'Farming','Runecrafting',
         'Hunter', 'Construction']
 
-
-
 @client.event
 async def on_message(message):
     #Make sure we don't respond to ourself
@@ -196,27 +194,24 @@ async def on_message(message):
         #Separates the data by newline. Sets the base, melee, ranged, and mage values
         dataCaller = soup.get_text().split("\n")
         base = .25*(float(dataCaller[2].split(",")[1]) + float(dataCaller[4].split(",")[1]) + floor(float(dataCaller[6].split(",")[1])/2))
-        melee = .325*((float(dataCaller[1].split(",")[1]) + float(dataCaller[3].split(",")[1]))/2)
+        melee = .325*(float(dataCaller[1].split(",")[1]) + float(dataCaller[3].split(",")[1]))
         ranged = .325*(floor(float(dataCaller[5].split(",")[1])/2) + float(dataCaller[5].split(",")[1]))
         mage = .325*(floor(float(dataCaller[7].split(",")[1])/2) + float(dataCaller[7].split(",")[1]))
+        print(base,"\n",melee,"\n",ranged,"\n",mage)
         #Create an empty string and then set it to the largest of the three types of combat 
         comType = ""
-        if melee > ranged:
-            if melee > mage:
-                comType = "Warrior"
-                base = base + melee
-            else:
+        if melee > ranged and melee > mage:
+            comType = "Warrior"
+            base = base + melee
+        elif mage > ranged:
                 comType = "Mage"
                 base = base + mage
-        elif ranged > mage:
+        else:
             comType = "Ranger"
             base = base + ranged
-        else:
-            comType = "Mage"
-            base = base + mage
         #Traces out the pie chart for combat breakdown
         trace = go.Pie(
-            labels=["(Attack + Strength)/2","Ranged","Magic"], 
+            labels=["Attack + Strength","Ranged","Magic"], 
             values=[melee,ranged,mage], 
             textinfo="label", 
             showlegend=False,
@@ -249,14 +244,13 @@ async def on_message(message):
             ) 
         )
         #Creates the figure, saves that figure as an image, submits the image along with a message about the character then returns
-        fig = go.Figure(data=[trace,trace1], layout=layout)
+        fig = go.Figure(data=[trace], layout=layout)
         py.image.save_as(fig, filename=(data + '.png'))
         await client.send_message(message.channel, "**SLIGHTLY BROKEN COMMAND STILL \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
         return
 
-        
 #Once the bot is logged in, print this out to the console so that I know its in             
 @client.event
 async def on_ready():
@@ -268,4 +262,3 @@ async def on_ready():
 
 #Starts up the client with the key that was retrieved from botSecret
 client.run(code)
-
