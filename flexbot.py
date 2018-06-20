@@ -112,35 +112,43 @@ async def on_message(message):
         return
     #Gets the RuneScape stats for the input user and send them as a message
     elif message.content.startswith("$stats"):
+        #Gets the content after the first space
         data = " ".join(message.content.split(" ")[1:])
+        #Gets the data for that account from the OSRS highscore website, if errors occur it messages that
+        #that user does not exist
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         except:
             await client.send_message(message.author, "That user does not exist")
             return
+        #Split the data by newline, as it comes in in sets of three values per line comma separated
         dataCaller = soup.get_text().split("\n")
+        #Print out in bold the character name, then for loop through all of the skills.
+        #Adds the lines to string variable named "msg" that starts out empty
         msg = "**" + data + "'s stats:**\n"
         for x in range(0,24):
             info = dataCaller[x].split(",")
-            adder = "`-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
-            msg += adder
+            msg += "`-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
         await client.send_message(message.channel, msg)
         return
     #Get the stats on an account, and display a pie chart with the breakdown of those stats
     elif message.content.startswith("$pie"):
+        #Creates a list named "levels" that will store the values for the pie chart, gets the name of the chart to pie
         levels = []
         data = " ".join(message.content.split(" ")[1:])
+        #Attempts to get the information on the character that was submitted, if error then sends error message to user
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         except:
             await client.send_message(message.author, "That user does not exist")
             return
+        #Splits the data that we took in by newlines, and then goes through it and appends the XP collumn to levels
         dataCaller = soup.get_text().split("\n")
         for x in range(1,24):
-            info = dataCaller[x].split(",")
-            levels.append(int(info[2]))
+            levels.append(int(dataCaller[x].split(",")[2]))
+        #Creates the pie chart with the previously appended data
         trace = go.Pie(
             labels=labels, 
             values=levels, 
@@ -150,11 +158,11 @@ async def on_message(message):
                 line=dict(
                     color='#000000', 
                     width=1.5
-                    )
-                ),
+                )
+            ),
             textposition="inside"
-            )
-        
+        )
+        #Sets the layout for the Pie chart, things like a clear background, outlines, font, etc.
         layout = go.Layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
@@ -163,8 +171,11 @@ async def on_message(message):
                 family='sans serif', 
                 size=26, 
                 color='#000000'
-                )
             )
+        )
+        #Creates the figure with the data and the layou and then saves the file in the same name as the character 
+        #that is being checked. It then submits that picture along with the proper message.
+        #Finally it deletes the picture and returns
         fig = go.Figure(data=[trace], layout=layout)
         py.image.save_as(fig, filename=(data + '.png'))
         await client.send_message(message.channel,("**" + data + "'s XP breakdown:**\n" ))
@@ -173,25 +184,21 @@ async def on_message(message):
         return
     #Get the combat level of an account and display the reason that the level is that way
     elif message.content.startswith("$combat"):
+        #Gets the values after the command and saves it in data
         data = " ".join(message.content.split(" ")[1:])
+        #Tries to get the score for the submitted character, if error sends error message to discord
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         except:
             await client.send_message(message.author, "That user does not exist")
             return
+        #Separates the data by newline. Sets the base, melee, ranged, and mage values
         dataCaller = soup.get_text().split("\n")
-        attack = float(dataCaller[1].split(",")[1])
-        defense = float(dataCaller[2].split(",")[1])
-        strength = float(dataCaller[3].split(",")[1])
-        hitpoints = float(dataCaller[4].split(",")[1])
-        ranged = float(dataCaller[5].split(",")[1])
-        prayer = float(dataCaller[6].split(",")[1])
-        magic = float(dataCaller[7].split(",")[1])
-        base = .25*(defense + hitpoints + floor(prayer/2))
-        melee = .325*(attack + strength)
-        ranged = .325*(floor(ranged/2) + ranged)
-        mage = .325*(floor(magic/2) + magic)
+        base = .25*(float(dataCaller[2].split(",")[1]) + float(dataCaller[4].split(",")[1]) + floor(float(dataCaller[6].split(",")[1])/2))
+        melee = .325*((float(dataCaller[1].split(",")[1]) + float(dataCaller[3].split(",")[1]))/2)
+        ranged = .325*(floor(float(dataCaller[5].split(",")[1])/2) + float(dataCaller[5].split(",")[1]))
+        mage = .325*(floor(float(dataCaller[7].split(",")[1])/2) + float(dataCaller[7].split(",")[1]))
         #Create an empty string and then set it to the largest of the three types of combat 
         comType = ""
         if melee > ranged:
@@ -207,22 +214,29 @@ async def on_message(message):
         else:
             comType = "Mage"
             base = base + mage
+        #Traces out the pie chart for combat breakdown
         trace = go.Pie(
             labels=["(Attack + Strength)/2","Ranged","Magic"], 
-            values=[(attack + strength)/2,ranged,mage], 
+            values=[melee,ranged,mage], 
             textinfo="label", 
             showlegend=False,
             marker=dict(line=dict(color='#000000', width=1.5)),
             textposition="inside",
             domain=dict(x=[0,4])
-            )
-        trace1 = go.Bar(
-                    x= ["Hitpoints","Defense","Prayer"],
-                    y= [hitpoints,defense,prayer],
-                    textposition = 'auto',
-                    showlegend=False,
-                    marker=dict(color=['#8b0000','#8b0000',"#8b0000"])
-                )
+        )
+        #Removing this till fixed or figured out
+        #trace1 = go.Bar(
+        #    x= ["Hitpoints","Defense","Prayer"],
+        #    y= [
+        #        float(dataCaller[4].split(",")[1]),
+        #        float(dataCaller[2].split(",")[1]),
+        #        float(dataCaller[6].split(",")[1])
+        #    ],
+        #    textposition = 'auto',
+        #    showlegend=False,
+        #    marker=dict(color=['#8b0000','#8b0000',"#8b0000"])
+        #)
+        #Sets the layout for the charts
         layout = go.Layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
@@ -232,17 +246,18 @@ async def on_message(message):
                 family='sans serif', 
                 size=40, 
                 color='#000000'
-                ) 
-            )
+            ) 
+        )
+        #Creates the figure, saves that figure as an image, submits the image along with a message about the character then returns
         fig = go.Figure(data=[trace,trace1], layout=layout)
         py.image.save_as(fig, filename=(data + '.png'))
-        await client.send_message(message.channel, "**CURRENTLY BROKEN COMMAND \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
+        await client.send_message(message.channel, "**SLIGHTLY BROKEN COMMAND STILL \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
         return
 
         
-             
+#Once the bot is logged in, print this out to the console so that I know its in             
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -251,5 +266,6 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
+#Starts up the client with the key that was retrieved from botSecret
 client.run(code)
 
