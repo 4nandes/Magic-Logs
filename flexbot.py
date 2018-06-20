@@ -197,7 +197,6 @@ async def on_message(message):
         melee = .325*(float(dataCaller[1].split(",")[1]) + float(dataCaller[3].split(",")[1]))
         ranged = .325*(floor(float(dataCaller[5].split(",")[1])/2) + float(dataCaller[5].split(",")[1]))
         mage = .325*(floor(float(dataCaller[7].split(",")[1])/2) + float(dataCaller[7].split(",")[1]))
-        print(base,"\n",melee,"\n",ranged,"\n",mage)
         #Create an empty string and then set it to the largest of the three types of combat 
         comType = ""
         if melee > ranged and melee > mage:
