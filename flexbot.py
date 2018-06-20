@@ -9,7 +9,6 @@
 #░░░Nathan░░░░░▀▄░░░▐█████████████▄
 #░░░░░Fernandes░░░▀▄▄███████████████
 #░░░░░░░░░░░░░░░░░░░░░░░░█▀██████░░
-
 import discord
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -18,10 +17,12 @@ import plotly.graph_objs as go
 import os
 from math import floor
 
-
+#Create the client, open the file that has the pass in it
 client = discord.Client()
 botSecret = open("botSecret.txt","r")
 code = botSecret.read()
+
+#Having these is embarassing, theyre most likely unneccessary, and also its repeating information
 skillNames = {0:'Overall', 1:'Attack', 2:'Defence', 
             3:'Strength', 4:'Hitpoints', 5:'Ranged', 
             6:'Prayer', 7:'Magic', 8:'Cooking', 
@@ -49,15 +50,20 @@ labels = ['Attack','Defence','Strength','Hitpoints',
 
 @client.event
 async def on_message(message):
+    #Make sure we don't respond to ourself
     if message.author == client.user:
 	    return
+    #Command to compare a skill to another person
     if message.content.startswith("$flex"):
+        #Collect the names of the two accounts to compare
         await client.send_message(message.author, "Enter the name of your account: ")
         unCaller = await client.wait_for_message(timeout=15.0, author=message.author)
         unCaller = unCaller.content
         await client.send_message(message.author, "Enter the name of the account that we are flexing on today: ")
         unRec = await client.wait_for_message(timeout=15.0, author=message.author)
         unRec = unRec.content
+        #Attempt to get both of their data from the OSRS highscores website, if either throws an error, then
+        #we will send a message stating that one of the two usernames that was submitted was improper
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + unCaller)
             soup = BeautifulSoup(sauce,'lxml')
@@ -66,12 +72,13 @@ async def on_message(message):
             stew = BeautifulSoup(ranch,'lxml')
             dataRec = stew.get_text().split("\n")
         except:
-            await client.send_message(message.author, "That is not a valid username")
+            await client.send_message(message.author, "One or both of the usernames provided does not have public highscore data")
             return
-
+        #Propmt user for the type of skill that they want to compare
         await client.send_message(message.author, "What skill are you comparing?")
         skill = await client.wait_for_message(timeout=15.0, author=message.author)
         skill = skill.content
+        #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         try:
             lvlCaller = dataCaller[book[skill]].split(",") 
             lvlRec = dataRec[book[skill]].split(",")
@@ -79,6 +86,7 @@ async def on_message(message):
                 await client.send_message(message.channel, 
                 "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
                 %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
+                #Traces out the bar chart
                 trace1 = go.Bar(
                     x= [unCaller, unRec],
                     y= [int(lvlCaller[2]),int(lvlRec[2])],
@@ -86,7 +94,13 @@ async def on_message(message):
                     textposition = 'auto',
                     marker=dict(color=['#16a085','#cb4335'])
                 )
-                layout = go.Layout(paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',font=dict(family='sans serif', size=26, color='#ffffff'))
+                #Layout for the bar chart
+                layout = go.Layout(
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    font=dict(family='sans serif', size=26, color='#ffffff')
+                )
+                #Create the chart, save as image, submit image, delete image
                 fig = go.Figure(data=[trace1], layout=layout)
                 py.image.save_as(fig, filename=(unCaller + '.png'))
                 await client.send_file(message.channel,(unCaller + '.png'))
@@ -96,6 +110,7 @@ async def on_message(message):
             await client.send_message(message.author, "That skill does not exist")
             return
         return
+    #Gets the RuneScape stats for the input user and send them as a message
     elif message.content.startswith("$stats"):
         data = " ".join(message.content.split(" ")[1:])
         try:
@@ -112,6 +127,7 @@ async def on_message(message):
             msg += adder
         await client.send_message(message.channel, msg)
         return
+    #Get the stats on an account, and display a pie chart with the breakdown of those stats
     elif message.content.startswith("$pie"):
         levels = []
         data = " ".join(message.content.split(" ")[1:])
@@ -155,6 +171,7 @@ async def on_message(message):
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
         return
+    #Get the combat level of an account and display the reason that the level is that way
     elif message.content.startswith("$combat"):
         data = " ".join(message.content.split(" ")[1:])
         try:
@@ -175,6 +192,7 @@ async def on_message(message):
         melee = .325*(attack + strength)
         ranged = .325*(floor(ranged/2) + ranged)
         mage = .325*(floor(magic/2) + magic)
+        #Create an empty string and then set it to the largest of the three types of combat 
         comType = ""
         if melee > ranged:
             if melee > mage:
