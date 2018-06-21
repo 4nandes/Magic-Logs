@@ -7,6 +7,7 @@ Format: `$stats [OSRS Username]`
 
 Gets and displays the statistics for the OSRS username that was provided, if the username's statistics cannot be found then the bot will notify the user of this.
 
+(https://i.imgur.com/WxwJOrx.png)
 ### $pie
 Format: `$pie [OSRS Username]`
 
