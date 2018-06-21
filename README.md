@@ -48,3 +48,4 @@ Beautiful Soup is a python library that allows the bot to get information off of
 - Ability to link a username to your Discord ID so that you can just use $stats and it will default to your account
 - Daily gain leaderboard automation on Monday - Saturday, Weekly gain leaderboard Sunday
 - Fixing the $combat command
+- Website for the bot
