@@ -23,23 +23,23 @@ botSecret = open("botSecret.txt","r")
 code = botSecret.read()
 
 #Having these is embarassing, theyre most likely unneccessary, and also its repeating information
-#skillNames = {0:'Overall', 1:'Attack', 2:'Defence', 
-#            3:'Strength', 4:'Hitpoints', 5:'Ranged', 
-#            6:'Prayer', 7:'Magic', 8:'Cooking', 
-#            9:'Woodcutting', 10:'Fletching', 11:'Fishing', 
-#            12:'Firemaking', 13:'Crafting', 14:'Smithing', 
-#            15:'Mining', 16:'Herblore', 17:'Agility', 
-#            18:'Thieving', 19:'Slayer', 20:'Farming', 
-#            21:'Runecrafting', 22:'Hunter', 23:'Construction'}
-#book = {'overall':0, 'attack':1, 'defence':2, 
-#        'strength':3, 'hitpoints':4, 'ranged':5, 
-#        'prayer':6, 'magic':7, 'cooking':8, 
-#        'woodcutting':9, 'fletching':10, 'fishing':11, 
-#        'firemaking':12, 'crafting':13, 'smithing':14, 
-#        'mining':15, 'herblore':16, 'agility':17, 
-#        'thieving':18, 'slayer':19, 'farming':20, 
-#        'runecrafting':21, 'hunter':22, 'construction':23}
-labels = ['Overall','Attack','Defence','Strength','Hitpoints',
+skillNames = {0:'Overall', 1:'Attack', 2:'Defence', 
+            3:'Strength', 4:'Hitpoints', 5:'Ranged', 
+            6:'Prayer', 7:'Magic', 8:'Cooking', 
+            9:'Woodcutting', 10:'Fletching', 11:'Fishing', 
+            12:'Firemaking', 13:'Crafting', 14:'Smithing', 
+            15:'Mining', 16:'Herblore', 17:'Agility', 
+            18:'Thieving', 19:'Slayer', 20:'Farming', 
+            21:'Runecrafting', 22:'Hunter', 23:'Construction'}
+book = {'overall':0, 'attack':1, 'defence':2, 
+        'strength':3, 'hitpoints':4, 'ranged':5, 
+        'prayer':6, 'magic':7, 'cooking':8, 
+        'woodcutting':9, 'fletching':10, 'fishing':11, 
+        'firemaking':12, 'crafting':13, 'smithing':14, 
+        'mining':15, 'herblore':16, 'agility':17, 
+        'thieving':18, 'slayer':19, 'farming':20, 
+        'runecrafting':21, 'hunter':22, 'construction':23}
+labels = ['Attack','Defence','Strength','Hitpoints',
         'Ranged','Prayer','Magic','Cooking','Woodcutting',
         'Fletching','Fishing','Firemaking','Crafting',
         'Smithing','Mining','Herblore','Agility',
@@ -75,11 +75,11 @@ async def on_message(message):
         #Propmt user for the type of skill that they want to compare
         await client.send_message(message.author, "What skill are you comparing?")
         skill = await client.wait_for_message(timeout=15.0, author=message.author)
-        skill = skill.content.capitalize()
+        skill = skill.content
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         try:
-            lvlCaller = dataCaller[labels.index(skill)].split(",") 
-            lvlRec = dataRec[labels.index(skill)].split(",")
+            lvlCaller = dataCaller[book[skill]].split(",") 
+            lvlRec = dataRec[book[skill]].split(",")
             if int(lvlCaller[1]) > int(lvlRec[1]):
                 await client.send_message(message.channel, 
                 "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
@@ -127,7 +127,7 @@ async def on_message(message):
         msg = "**" + data + "'s stats:**\n"
         for x in range(0,24):
             info = dataCaller[x].split(",")
-            msg += "`-" + labels[x] + ("."*(20-len(labels[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
+            msg += "`-" + skillNames[x] + ("."*(20-len(skillNames[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
         await client.send_message(message.channel, msg)
         return
     #Get the stats on an account, and display a pie chart with the breakdown of those stats
@@ -148,7 +148,7 @@ async def on_message(message):
             levels.append(int(dataCaller[x].split(",")[2]))
         #Creates the pie chart with the previously appended data
         trace = go.Pie(
-            labels=labels[1:], 
+            labels=labels, 
             values=levels, 
             textinfo="label", 
             showlegend=False,
