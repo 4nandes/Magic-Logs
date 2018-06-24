@@ -39,10 +39,10 @@ async def on_message(message):
     if message.content.startswith("$flex"):
         #Collect the names of the two accounts to compare
         await client.send_message(message.author, "Enter the name of your account: ")
-        unCaller = await client.wait_for_message(timeout=15.0, author=message.author)
+        unCaller = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
         unCaller = unCaller.content
         await client.send_message(message.author, "Enter the name of the account that we are flexing on today: ")
-        unRec = await client.wait_for_message(timeout=15.0, author=message.author)
+        unRec = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
         unRec = unRec.content
         #Attempt to get both of their data from the OSRS highscores website, if either throws an error, then
         #we will send a message stating that one of the two usernames that was submitted was improper
@@ -58,7 +58,7 @@ async def on_message(message):
             return
         #Propmt user for the type of skill that they want to compare
         await client.send_message(message.author, "What skill are you comparing?")
-        skill = await client.wait_for_message(timeout=15.0, author=message.author)
+        skill = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
         skill = skill.content.capitalize()
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         try:
