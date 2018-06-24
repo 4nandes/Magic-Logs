@@ -39,7 +39,7 @@ https://plot.ly/python/
 
 Plotly is a python library that allows the bot to make visually pleasing graph images
 ### Beautiful Soup
-https://www.crummy.com/software/BeautifulSoup/?
+https://www.crummy.com/software/BeautifulSoup/
 
 Beautiful Soup is a python library that allows the bot to get information off of the OSRS hiscore website.
 
