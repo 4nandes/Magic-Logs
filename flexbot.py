@@ -272,7 +272,7 @@ async def on_message(message):
         #All of the information after the command is tried as an OSRS account
         data = " ".join(message.content.split(" ")[1:])
         try:
-            urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
+            sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
             soup = BeautifulSoup(sauce,'lxml')
         #If the account cannot be found then the person is told that the username does not exist
         except:
