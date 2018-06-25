@@ -17,6 +17,7 @@ import plotly.graph_objs as go
 import os
 import sqlite3
 import re
+import datetime
 from math import floor
 
 #Create the client, open the file that has the pass in it
@@ -287,6 +288,14 @@ async def on_message(message):
             try:
                 c.execute("INSERT INTO User VALUES(?,?,?)", (message.author.id,data,message.server.id))
                 conn.commit()
+                inserter = [data]
+                dataCaller = soup.get_text().split("\n")
+                for x in range(0,24):
+                    inserter.append(dataCaller[x].split(",")[1])
+                    inserter.append(dataCaller[x].split(",")[2])
+                inserter.append(datetime.date.today())
+                c.execute("INSERT INTO Statistic VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",inserter)
+                conn.commit()
             except:
                 #If they already have an account registered, then find their runescapeUsername, and tell them theyre already
                 c.execute("SELECT runescapeUsername FROM User WHERE discordID = {} AND serverID = {}".format(message.author.id,message.server.id))
@@ -306,6 +315,26 @@ async def on_message(message):
             msg +=  " \n" + info[x][0] 
         await client.send_message(message.channel, msg)
         return
+    elif message.content.startswith("$LB"):
+        data = " ".join(message.content.split(" ")[1:])
+        if data == "":
+            await client.send_message(message.channel, "THIS IS NOT YET IMPLEMENTED")
+            return
+        try:
+            data.capitalize()
+            labels.index(data)
+            msg = "***{} Leaderboard:***".format(data)
+            data.lower()
+            c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((data+'XP'),(data+'Lvl'),(data+'XP')))
+            data = c.fetchall()
+            for x in range(0,len(data)):
+                msg += "\n**" + data[x][0] + "**" + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}".format(int(data[x][1]))
+            await client.send_message(message.channel, msg)
+            return
+        except:
+            await client.send_message(message.channel, "That skill was not found")
+            return
+    return
 
 #Once the bot is logged in, print this out to the console so that I know its in             
 @client.event
