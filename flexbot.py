@@ -82,7 +82,7 @@ async def on_message(message):
                 lvlCaller = dataCaller[labels.index(skill)].split(",")
                 proceed = True
             except:
-                await client.send_message(message.author, "Could not find the skill {}, try again".format(skill))
+                await client.send_message(message.author, 'Could not find the skill "{}", try again'.format(skill))
                 try:
                     skill = await client.wait_for_message(timeout=10.0, author=message.author)
                     skill = skill.content.capitalize()
