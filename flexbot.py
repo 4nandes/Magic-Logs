@@ -84,10 +84,10 @@ async def on_message(message):
             except:
                 await client.send_message(message.author, "Could not find the skill {}, try again".format(skill))
                 try:
-                    skill = None
                     skill = await client.wait_for_message(timeout=10.0, author=message.author)
                     skill = skill.content.capitalize()
                 except:
+                    await client.send_message(message.author, "Took too long to respond")
                     return
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         lvlCaller = dataCaller[labels.index(skill)].split(",") 
