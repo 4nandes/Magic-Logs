@@ -273,6 +273,7 @@ async def on_message(message):
         data = " ".join(message.content.split(" ")[1:])
         try:
             urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
+            soup = BeautifulSoup(sauce,'lxml')
         #If the account cannot be found then the person is told that the username does not exist
         except:
             await client.send_message(message.author, "That user does not exist")
