@@ -235,36 +235,42 @@ async def on_message(message):
             showlegend=False,
             marker=dict(line=dict(color='#000000', width=1.5)),
             textposition="inside",
-            domain=dict(x=[0,4])
+            domain=dict(x=[0,0.5])
         )
         #Removing this till fixed or figured out
-        #trace1 = go.Bar(
-        #    x= ["Hitpoints","Defense","Prayer"],
-        #    y= [
-        #        float(dataCaller[4].split(",")[1]),
-        #        float(dataCaller[2].split(",")[1]),
-        #        float(dataCaller[6].split(",")[1])
-        #    ],
-        #    textposition = 'auto',
-        #    showlegend=False,
-        #    marker=dict(color=['#8b0000','#8b0000',"#8b0000"])
-        #)
+        trace1 = go.Bar(
+            x= ["Hitpoints","Defense","Prayer"],
+            y= [
+                float(dataCaller[4].split(",")[1]),
+                float(dataCaller[2].split(",")[1]),
+                float(dataCaller[6].split(",")[1])
+            ],
+            text= [
+                float(dataCaller[4].split(",")[1]),
+                float(dataCaller[2].split(",")[1]),
+                float(dataCaller[6].split(",")[1])
+            ],
+            textposition = 'auto',
+            showlegend=False,
+            marker=dict(color=['#8b0000','#808080',"#ffff00"])
+        )
         #Sets the layout for the charts
         layout = go.Layout(
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(0,0,0,0)',
-            width=1000, 
+            width=2000, 
             height=1000, 
             font=dict(
                 family='sans serif', 
-                size=40, 
+                size=50, 
                 color='#000000'
-            ) 
+            ),
+            xaxis=dict(domain=[0.55,1])
         )
         #Creates the figure, saves that figure as an image, submits the image along with a message about the character then returns
-        fig = go.Figure(data=[trace], layout=layout)
+        fig = go.Figure(data=[trace,trace1], layout=layout)
         py.image.save_as(fig, filename=(data + '.png'))
-        await client.send_message(message.channel, "**SLIGHTLY BROKEN COMMAND STILL \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
+        await client.send_message(message.channel, "**" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
         return
