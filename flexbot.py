@@ -84,7 +84,8 @@ async def on_message(message):
             except:
                 await client.send_message(message.author, "Could not find the skill {}, try again".format(skill))
                 try:
-                    skill = await client.wait_for_message(timeout=15.0, author=message.author)
+                    skill = None
+                    skill = await client.wait_for_message(timeout=10.0, author=message.author)
                     skill = skill.content.capitalize()
                 except:
                     return
