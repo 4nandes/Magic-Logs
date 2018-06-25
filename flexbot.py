@@ -74,7 +74,7 @@ async def on_message(message):
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         #THIS WHERE YOU WORKING
         proceed = False 
-        while (proceed = False):
+        while (proceed == False):
             try:
                 lvlCaller = dataCaller[labels.index(skill)].split(",")
                 proceed = True
