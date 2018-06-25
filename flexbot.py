@@ -324,12 +324,12 @@ async def on_message(message):
         try:
             data = data.capitalize()
             labels.index(data)
-            msg = "***{} Leaderboard:***".format(data)
+            msg = "**{} Leaderboard:**".format(data)
             data = data.lower()
             c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((data+'XP'),(data+'Lvl'),(data+'XP')))
             data = c.fetchall()
             for x in range(0,len(data)):
-                msg += "\n**" + data[x][0] + "**" + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}".format(int(data[x][1]))
+                msg += "\n`" + data[x][0] + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}`".format(int(data[x][1]))
             await client.send_message(message.channel, msg)
             return
         except:
