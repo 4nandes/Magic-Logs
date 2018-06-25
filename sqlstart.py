@@ -5,13 +5,13 @@ c = conn.cursor()
 
 #Removes DB if needed
 #c.execute('DROP TABLE Server')
-
+#c.execute('DROP TABLE User')
 #Makes the DB
 c.execute('CREATE TABLE IF NOT EXISTS Server(serverName TEXT, serverID TEXT PRIMARY KEY)')
 conn.commit()
 
 #Inserts a server into the DB
-c.execute("INSERT INTO Server VALUES('MaxEHP-orDie',457716077984481290))")
+c.execute("INSERT INTO Server VALUES('MaxEHP-orDie',457716077984481290)")
 conn.commit()
 
 #creates the table for User
