@@ -32,11 +32,9 @@ Format: `$combat [OSRS Username]`
 
 If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
 
-This skill is still under construction, I need to find out how to get subplots to work side by side.
-
 Gets and displays the combat statistics for is OSRS username that was provided. If the username's statistics cannot be found then the bot will notify the user of this. The bot also displays the breakdown of how their combat lvl is calculated.
 
-![combat](https://i.imgur.com/0P69m20.png)
+![combat](https://i.imgur.com/gaHxJIG.png)
 ### $register
 Format: `$register [OSRS Username]`
 
@@ -72,6 +70,5 @@ Beautiful Soup is a python library that allows the bot to get information off of
 ## Future Plans:
 - Grand exchange search function
 - Daily gain leaderboard automation on Monday - Saturday, Weekly gain leaderboard Sunday
-- Fixing the $combat command
 - Website for the bot
 - WhoIs/WhoAmI commands
