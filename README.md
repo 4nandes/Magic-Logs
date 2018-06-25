@@ -75,5 +75,3 @@ Beautiful Soup is a python library that allows the bot to get information off of
 - Fixing the $combat command
 - Website for the bot
 - WhoIs/WhoAmI commands
-
-6/25/18 (Need to update with $LB and register stuff, and changes to $flex)
