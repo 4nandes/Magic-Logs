@@ -321,10 +321,10 @@ async def on_message(message):
             await client.send_message(message.channel, "THIS IS NOT YET IMPLEMENTED")
             return
         try:
-            data.capitalize()
+            data = data.capitalize()
             labels.index(data)
             msg = "***{} Leaderboard:***".format(data)
-            data.lower()
+            data = data.lower()
             c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((data+'XP'),(data+'Lvl'),(data+'XP')))
             data = c.fetchall()
             for x in range(0,len(data)):
