@@ -19,6 +19,7 @@ Gets and displays the statistics for an OSRS username in pie chart form. It sepe
 Format: `$flex [OSRS Username]`
 
 THIS COMMAND HAS CHANGED, UPDATED MARKDOWN COMING SOON
+
 The most complicated of the commands that the bot currently has. After this command has been recieved the bot will direct message the user asking for an account to compare to, and then a skill to compare. If either of the provided accounts cannot be found or if the provided skill does not exist then the bot will notify the user of this. If all of the provided input is correct then the bot will display a comparison of the submitted skill using a bar graph in chat.
 
 ![flex](https://i.imgur.com/Q4hgEcI.png)
