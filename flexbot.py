@@ -79,8 +79,12 @@ async def on_message(message):
                 lvlCaller = dataCaller[labels.index(skill)].split(",")
                 proceed = True
             except:
-                skill = await client.wait_for_message(timeout=15.0, author=message.author)
-                skill = skill.content.capitalize()
+                await client.send_message(message.author, "Could not find that skill, try again")
+                try:
+                    skill = await client.wait_for_message(timeout=15.0, author=message.author)
+                    skill = skill.content.capitalize()
+                except:
+                    return
         lvlCaller = dataCaller[labels.index(skill)].split(",") 
         lvlRec = dataRec[labels.index(skill)].split(",")
         if int(lvlCaller[1]) > int(lvlRec[1]):
