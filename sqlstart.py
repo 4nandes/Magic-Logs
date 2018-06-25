@@ -11,7 +11,7 @@ c.execute('CREATE TABLE IF NOT EXISTS Server(serverName TEXT, serverID TEXT PRIM
 conn.commit()
 
 #Inserts a server into the DB
-c.execute("INSERT INTO Server VALUES('MaxEHP-orDie',457716077984481290))")
+c.execute("INSERT INTO Server VALUES('MaxEHP-orDie',457716077984481290)")
 conn.commit()
 
 #creates the table for User
