@@ -69,22 +69,26 @@ async def on_message(message):
             return
         #Propmt user for the type of skill that they want to compare
         await client.send_message(message.author, "What skill are you comparing?")
-        skill = await client.wait_for_message(timeout=15.0, author=message.author)
-        skill = skill.content.capitalize()
-        #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
-        #THIS WHERE YOU WORKING
+        try:
+            skill = await client.wait_for_message(timeout=15.0, author=message.author)
+            skill = skill.content.capitalize()
+        except:
+            await client.send_message(message.author, "Took too long to respond")
+            return
+        #Continues to bother the person until they input a proper skill
         proceed = False 
         while (proceed == False):
             try:
                 lvlCaller = dataCaller[labels.index(skill)].split(",")
                 proceed = True
             except:
-                await client.send_message(message.author, "Could not find that skill, try again")
+                await client.send_message(message.author, "Could not find the skill {}, try again".format(skill))
                 try:
                     skill = await client.wait_for_message(timeout=15.0, author=message.author)
                     skill = skill.content.capitalize()
                 except:
                     return
+        #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         lvlCaller = dataCaller[labels.index(skill)].split(",") 
         lvlRec = dataRec[labels.index(skill)].split(",")
         if int(lvlCaller[1]) > int(lvlRec[1]):
