@@ -15,9 +15,13 @@ from urllib.request import urlopen
 import plotly.plotly as py
 import plotly.graph_objs as go
 import os
+import sqlite3
+import re
 from math import floor
 
 #Create the client, open the file that has the pass in it
+conn = sqlite3.connect('test.db')
+c = conn.cursor()
 client = discord.Client()
 botSecret = open("botSecret.txt","r")
 code = botSecret.read()
@@ -30,6 +34,13 @@ labels = ['Overall','Attack','Defence','Strength','Hitpoints',
         'Theiving', 'Slayer', 'Farming','Runecrafting',
         'Hunter', 'Construction']
 
+def searchDefault(author, server):
+    c.execute("SELECT runescapeUsername FROM User WHERE discordID = {} AND serverID = {}".format(author,server))
+    name = c.fetchone()
+    if name:
+        return name[0]
+    return ""
+
 @client.event
 async def on_message(message):
     #Make sure we don't respond to ourself
@@ -37,13 +48,13 @@ async def on_message(message):
 	    return
     #Command to compare a skill to another person
     if message.content.startswith("$flex"):
-        #Collect the names of the two accounts to compare
-        await client.send_message(message.author, "Enter the name of your account: ")
-        unCaller = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
-        unCaller = unCaller.content
-        await client.send_message(message.author, "Enter the name of the account that we are flexing on today: ")
-        unRec = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
-        unRec = unRec.content
+        #Gets the content after the first space which holds who we are comparing to
+        unRec = " ".join(message.content.split(" ")[1:])
+        #If they are trying to use it with a default, check for their OSRS username in the database
+        unCaller = searchDefault(message.author.id,message.server.id)
+        if unCaller == "":
+            await client.send_message(message.channel, "You must be registered to use this command")
+            return
         #Attempt to get both of their data from the OSRS highscores website, if either throws an error, then
         #we will send a message stating that one of the two usernames that was submitted was improper
         try:
@@ -58,7 +69,7 @@ async def on_message(message):
             return
         #Propmt user for the type of skill that they want to compare
         await client.send_message(message.author, "What skill are you comparing?")
-        skill = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
+        skill = await client.wait_for_message(timeout=15.0, author=message.author)
         skill = skill.content.capitalize()
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         try:
@@ -96,6 +107,9 @@ async def on_message(message):
     elif message.content.startswith("$stats"):
         #Gets the content after the first space
         data = " ".join(message.content.split(" ")[1:])
+        #If they are trying to use it with a default, check for their OSRS username in the database
+        if data == "":
+            data  = searchDefault(message.author.id,message.server.id)
         #Gets the data for that account from the OSRS highscore website, if errors occur it messages that
         #that user does not exist
         try:
@@ -119,6 +133,9 @@ async def on_message(message):
         #Creates a list named "levels" that will store the values for the pie chart, gets the name of the chart to pie
         levels = []
         data = " ".join(message.content.split(" ")[1:])
+        #If they are trying to use it with a default, check for their OSRS username in the database
+        if data == "":
+            data  = searchDefault(message.author.id,message.server.id)
         #Attempts to get the information on the character that was submitted, if error then sends error message to user
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
@@ -168,6 +185,9 @@ async def on_message(message):
     elif message.content.startswith("$combat"):
         #Gets the values after the command and saves it in data
         data = " ".join(message.content.split(" ")[1:])
+        #If they are trying to use it with a default, check for their OSRS username in the database
+        if data == "":
+            data  = searchDefault(message.author.id,message.server.id)
         #Tries to get the score for the submitted character, if error sends error message to discord
         try:
             sauce = urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
@@ -232,6 +252,45 @@ async def on_message(message):
         await client.send_message(message.channel, "**SLIGHTLY BROKEN COMMAND STILL \n" + data + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
         await client.send_file(message.channel,(data + '.png'))
         os.remove((data + '.png'))
+        return
+    elif message.content.startswith("$register"):
+        #All of the information after the command is tried as an OSRS account
+        data = " ".join(message.content.split(" ")[1:])
+        try:
+            urlopen("http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + data)
+        #If the account cannot be found then the person is told that the username does not exist
+        except:
+            await client.send_message(message.author, "That user does not exist")
+            return
+        #Checks to see if they would like to register this account name
+        await client.send_message(message.channel, ("**Are you sure you would like to register the name {}**\nThis CANNOT be undone unless the admin does it manually\n('yes''Yes''y''Y')".format(data)))
+        yesOrNo = await client.wait_for_message(timeout=15.0, author=message.author, channel=message.channel)
+        #Uses regular expressions to see if their response starts with a Y or y
+        if re.match('([y])|([Y])', yesOrNo.content):
+            #Prints out 
+            await client.send_message(message.channel, "Associating Discord account: **{}**\nOldSchool RuneScape account: **{}**\nCurrent Nickname: **{}**".format(message.author, data, message.author.nick))
+            #Inserts them into the Database
+            try:
+                c.execute("INSERT INTO User VALUES(?,?,?)", (message.author.id,data,message.server.id))
+                conn.commit()
+            except:
+                #If they already have an account registered, then find their runescapeUsername, and tell them theyre already
+                c.execute("SELECT runescapeUsername FROM User WHERE discordID = {} AND serverID = {}".format(message.author.id,message.server.id))
+                name = c.fetchone()
+                await client.send_message(message.channel, "**ERROR**\nThat username has already been registered with the OldSchool RuneScape account: **{}**".format(name[0]))
+                return
+            return
+        else:
+            await client.send_message(message.channel, "Aborting...")
+            return
+    #Prints out a list of users 
+    elif message.content.startswith("$users"):
+        c.execute("SELECT DISTINCT runescapeUsername FROM User WHERE serverID = {}".format(message.server.id))
+        info = c.fetchall()
+        msg = '**Registered OSRS Accounts:**'
+        for x in range(0,len(info)):
+            msg +=  " \n" + info[x][0] 
+        await client.send_message(message.channel, msg)
         return
 
 #Once the bot is logged in, print this out to the console so that I know its in             
