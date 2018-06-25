@@ -6,11 +6,15 @@ FlexBot is a python script that runs a Discord bot. The general purpose of the b
 ### $stats
 Format: `$stats [OSRS Username]`
 
+If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
+
 Gets and displays the statistics for the OSRS username that was provided, if the username's statistics cannot be found then the bot will notify the user of this.
 
 ![stats](https://i.imgur.com/WxwJOrx.png)
 ### $pie
 Format: `$pie [OSRS Username]`
+
+If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
 
 Gets and displays the statistics for an OSRS username in pie chart form. It seperates the pie based on XP. If the username's statistics cannot be found then the bot will notify the user of this.
 
@@ -26,11 +30,19 @@ The most complicated of the commands that the bot currently has. After this comm
 ### $combat
 Format: `$combat [OSRS Username]`
 
+If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
+
 This skill is still under construction, I need to find out how to get subplots to work side by side.
 
 Gets and displays the combat statistics for is OSRS username that was provided. If the username's statistics cannot be found then the bot will notify the user of this. The bot also displays the breakdown of how their combat lvl is calculated.
 
 ![combat](https://i.imgur.com/0P69m20.png)
+### $register
+Format: `$register [OSRS Username]`
+
+### $LB
+Format: `$LB [skill name]`
+
 ## Sources:
 ### discord.py
 https://github.com/Rapptz/discord.py
