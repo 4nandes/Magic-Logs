@@ -22,11 +22,11 @@ Gets and displays the statistics for an OSRS username in pie chart form. It sepe
 ### $flex
 Format: `$flex [OSRS Username]`
 
-THIS COMMAND HAS CHANGED, UPDATED MARKDOWN COMING SOON
+This command is only available to those who have a registered account.
 
-The most complicated of the commands that the bot currently has. After this command has been recieved the bot will direct message the user asking for an account to compare to, and then a skill to compare. If either of the provided accounts cannot be found or if the provided skill does not exist then the bot will notify the user of this. If all of the provided input is correct then the bot will display a comparison of the submitted skill using a bar graph in chat.
+To use this command, put the account you would like to compare your account to in the OSRS Username field. The bot will then direct message you and ask what skill you would like to compare. After you have provided a proper skill, it will submit the amount of difference between your account and the account provided with a bar graph.
 
-![flex](https://i.imgur.com/Q4hgEcI.png)
+![flex](https://i.imgur.com/dJxtczj.png)
 ### $combat
 Format: `$combat [OSRS Username]`
 
@@ -40,9 +40,21 @@ Gets and displays the combat statistics for is OSRS username that was provided. 
 ### $register
 Format: `$register [OSRS Username]`
 
+Registers a Runescape username to a Discord account. If done properly, it should enable the ability to use the $flex command as well as using defaults on the $stats, $pie and $combat commands.
+
+![register](https://i.imgur.com/BTjCDFJ.png)
 ### $LB
 Format: `$LB [skill name]`
 
+Gets and displays the leaderboard for the skill provided, if the skill cannot be found then the user will be notified with a DM that that skill could not be found.
+
+![LB](https://i.imgur.com/HaCKXvI.png)
+### $users
+Format: `$users`
+
+Gets and displays the OSRS usernames that have been registered to the server so far.
+
+![users](https://i.imgur.com/6sFOjtl.png)
 ## Sources:
 ### discord.py
 https://github.com/Rapptz/discord.py
