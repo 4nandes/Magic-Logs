@@ -71,5 +71,3 @@ Beautiful Soup is a python library that allows the bot to get information off of
 - Grand exchange search function
 - Daily gain leaderboard automation on Monday - Saturday, Weekly gain leaderboard Sunday
 - Website for the bot
-- WhoIs/WhoAmI commands
-- Make commands modular
