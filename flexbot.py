@@ -339,19 +339,19 @@ async def on_message(message):
             return
     elif message.content.startswith("$GE"):
         data = " ".join(message.content.split(" ")[1:]).lower()
-        #try:
-        sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha={}".format(data)).json()
-        sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={}".format(sauce['items'][0]['id'])).json()
-        msg = sauce['item']['name']  + '\n\n'
-        msg += "`Current Price:........  " + str(sauce['item']['current']['price']) + " gp`"
-        msg += "\n`Today's Trend:........  " + str(sauce['item']['today']['price']).replace(' ','') + " gp`"
-        msg += "\n`30 Day Trend:.........  " + str(sauce['item']['day30']['change']) + "`"
-        msg += "\n`90 Day Trend:.........  " + str(sauce['item']['day90']['change']) + "`"
-        msg += "\n`180 Day Trend:........  " + str(sauce['item']['day180']['change']) + "`"
-        await client.send_message(message.channel, msg)
-    #except:
-        #    await client.send_message(message.channel, data + " not found")
-        #    return
+        try:
+            sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha={}".format(data)).json()
+            sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={}".format(sauce['items'][0]['id'])).json()
+            msg = sauce['item']['name']  + '\n\n'
+            msg += "`Current Price:........  " + str(sauce['item']['current']['price']) + " gp`"
+            msg += "\n`Today's Trend:........  " + str(sauce['item']['today']['price']).replace(' ','') + " gp`"
+            msg += "\n`30 Day Trend:.........  " + str(sauce['item']['day30']['change']) + "`"
+            msg += "\n`90 Day Trend:.........  " + str(sauce['item']['day90']['change']) + "`"
+            msg += "\n`180 Day Trend:........  " + str(sauce['item']['day180']['change']) + "`"
+            await client.send_message(message.channel, msg)
+        except:
+            await client.send_message(message.channel, data + " not found")
+            return
         return
     return
 
