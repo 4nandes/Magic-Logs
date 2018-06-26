@@ -50,7 +50,8 @@ async def on_message(message):
     #Command to compare a skill to another person
     if message.content.startswith("$flex"):
         #Gets the content after the first space which holds who we are comparing to
-        unRec = " ".join(message.content.split(" ")[1:])
+        unRec = " ".join(message.content.split(" ")[1:2])
+        skill = " ".join(message.content.split(" ")[2:]).capitalize()
         #If they are trying to use it with a default, check for their OSRS username in the database
         unCaller = searchDefault(message.author.id,message.server.id)
         if unCaller == "":
@@ -68,14 +69,6 @@ async def on_message(message):
         except:
             await client.send_message(message.author, "One or both of the usernames provided does not have public highscore data")
             return
-        #Propmt user for the type of skill that they want to compare
-        await client.send_message(message.author, "What skill are you comparing?")
-        try:
-            skill = await client.wait_for_message(timeout=15.0, author=message.author)
-            skill = skill.content.capitalize()
-        except:
-            await client.send_message(message.author, "Took too long to respond")
-            return
         #Continues to bother the person until they input a proper skill
         proceed = False 
         while (proceed == False):
@@ -83,12 +76,12 @@ async def on_message(message):
                 lvlCaller = dataCaller[labels.index(skill)].split(",")
                 proceed = True
             except:
-                await client.send_message(message.author, 'Could not find the skill "{}", try again'.format(skill))
+                await client.send_message(message.channel, 'Could not find the skill "{}", try again'.format(skill))
                 try:
                     skill = await client.wait_for_message(timeout=10.0, author=message.author)
                     skill = skill.content.capitalize()
                 except:
-                    await client.send_message(message.author, "Took too long to respond")
+                    await client.send_message(message.channel, "Took too long to respond")
                     return
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         lvlCaller = dataCaller[labels.index(skill)].split(",") 
@@ -315,13 +308,15 @@ async def on_message(message):
             return
     #Prints out a list of users 
     elif message.content.startswith("$users"):
-        c.execute("SELECT DISTINCT runescapeUsername FROM User WHERE serverID = {}".format(message.server.id))
+        c.execute("SELECT DISTINCT runescapeUsername, discordID FROM User WHERE serverID = {}".format(message.server.id))
         info = c.fetchall()
-        msg = '**Registered OSRS Accounts:**'
+        msg = '**Registered OSRS Accounts:** \n'
         for x in range(0,len(info)):
-            msg +=  " \n" + info[x][0] 
+            leaderNick = await client.get_user_info(info[x][1]) 
+            msg +=  " \n" + info[x][0] + " is " + str(leaderNick)
         await client.send_message(message.channel, msg)
         return
+    #Gets the leaderboard for a skill of the registered users
     elif message.content.startswith("$LB"):
         data = " ".join(message.content.split(" ")[1:])
         if data == "":
