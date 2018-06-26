@@ -338,7 +338,7 @@ async def on_message(message):
             await client.send_message(message.channel, "That skill was not found")
             return
     elif message.content.startswith("$GE"):
-        data = " ".join(message.content.split(" ")[1:])
+        data = " ".join(message.content.split(" ")[1:]).lower()
         try:
             sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha={}".format(data)).json()
             msg = "`" + sauce['items'][0]['name']  + '`\n'
