@@ -50,8 +50,8 @@ async def on_message(message):
     #Command to compare a skill to another person
     if message.content.startswith("$flex"):
         #Gets the content after the first space which holds who we are comparing to
-        unRec = " ".join(message.content.split(" ")[1:2])
-        skill = " ".join(message.content.split(" ")[2:]).capitalize()
+        skill = " ".join(message.content.split(" ")[1:2]).capitalize()
+        unRec = " ".join(message.content.split(" ")[2:])
         #If they are trying to use it with a default, check for their OSRS username in the database
         unCaller = searchDefault(message.author.id,message.server.id)
         if unCaller == "":
@@ -78,7 +78,7 @@ async def on_message(message):
             except:
                 await client.send_message(message.channel, 'Could not find the skill "{}", try again'.format(skill))
                 try:
-                    skill = await client.wait_for_message(timeout=10.0, author=message.author)
+                    skill = await client.wait_for_message(timeout=4.0, author=message.author)
                     skill = skill.content.capitalize()
                 except:
                     await client.send_message(message.channel, "Took too long to respond")
