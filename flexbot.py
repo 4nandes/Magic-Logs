@@ -313,7 +313,7 @@ async def on_message(message):
         msg = '**Registered OSRS Accounts:** \n'
         for x in range(0,len(info)):
             leaderNick = await client.get_user_info(info[x][1]) 
-            msg +=  " \n" + info[x][0] + " is " + str(leaderNick)
+            msg +=  " \n`" + info[x][0] + "."*(20-len(info[x][0])) + str(leaderNick) + "`"
         await client.send_message(message.channel, msg)
         return
     #Gets the leaderboard for a skill of the registered users
