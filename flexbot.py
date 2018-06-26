@@ -341,12 +341,12 @@ async def on_message(message):
         data = " ".join(message.content.split(" ")[1:])
         try:
             sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha={}".format(data)).json()
+            msg = "`" + sauce['items'][0]['name']  + '`\n'
+            msg += "**Price:**   " + str(sauce['items'][0]['current']['price']) + " gp"
+            await client.send_message(message.channel, msg)
         except:
             await client.send_message(message.channel, "Skill not found")
             return
-        msg = "`" + sauce['items'][0]['name']  + '`\n'
-        msg += "**Price:**   " + str(sauce['items'][0]['current']['price']) + " gp"
-        await client.send_message(message.channel, msg)
         return
     return
 
