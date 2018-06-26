@@ -18,6 +18,7 @@ import os
 import sqlite3
 import re
 import datetime
+import requests
 from math import floor
 
 #Create the client, open the file that has the pass in it
@@ -336,6 +337,17 @@ async def on_message(message):
         except:
             await client.send_message(message.channel, "That skill was not found")
             return
+    elif message.content.startswith("$GE"):
+        data = " ".join(message.content.split(" ")[1:])
+        try:
+            sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/items.json?category=1&alpha={}".format(data)).json()
+        except:
+            await client.send_message(message.channel, "Skill not found")
+            return
+        msg = "`" + sauce['items'][0]['name']  + '`\n'
+        msg += "**Price:**   " + str(sauce['items'][0]['current']['price']) + " gp"
+        await client.send_message(message.channel, msg)
+        return
     return
 
 #Once the bot is logged in, print this out to the console so that I know its in             
