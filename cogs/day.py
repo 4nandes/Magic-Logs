@@ -24,7 +24,8 @@ class day:
             if int(info[2]) > dataThen[x]:
                 msg += "\n`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "{:,}".format(int(info[2]) - dataThen[x]) + "`"
         emb = embeds.Embed(title=username,description=msg, color=0xc27c0e)
-        emb.set_footer(text=(ctx.message.author.nick + " " + str(datetime.date.today())), icon_url=ctx.message.author.avatar_url)
+        discordName = await ctx.bot.get_user_info(ctx.message.author.id)
+        emb.set_footer(text=(str(discordName) + " [" + str(datetime.date.today())  + "]"), icon_url=ctx.message.author.avatar_url)
         await ctx.bot.say(embed=emb)
 
     

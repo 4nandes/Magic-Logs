@@ -16,7 +16,7 @@ class GE:
             sauce = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item={}".format(sauce['items'][0]['id'])).json()
             msg = "**Current Price:**\n" + str(sauce['item']['current']['price']) + " gp\n"
             msg += "**Today's Change:**\n" + str(sauce['item']['today']['price']).replace(' ','') + " gp\n"
-            #msg += "**30 Day Trend:**\n" + str(sauce['item']['day30']['change']) + "\n"
+            msg += "**30 Day Trend:**\n" + str(sauce['item']['day30']['change']) + "\n"
             #msg += "**90 Day Trend:**\n" + str(sauce['item']['day90']['change']) + "\n"
             #msg += "**180 Day Trend:**\n" + str(sauce['item']['day180']['change']) + "\n"
             if str(sauce['item']['today']['price']).startswith("+"):

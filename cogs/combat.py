@@ -9,6 +9,7 @@ import os
 class combat:
     def __init__(self,bot):
         self.bot = bot
+        
     @commands.command(pass_context=True)
     async def combat(self, ctx):
         username = " ".join(ctx.message.content.split(" ")[1:])
@@ -22,15 +23,18 @@ class combat:
         melee = .325*(float(data[1].split(",")[1]) + float(data[3].split(",")[1]))
         ranged = .325*(floor(float(data[5].split(",")[1])/2) + float(data[5].split(",")[1]))
         mage = .325*(floor(float(data[7].split(",")[1])/2) + float(data[7].split(",")[1])) 
-        comType = ""
+        comType = ["", ""]
         if melee > ranged and melee > mage:
-            comType = "Warrior"
+            comType[0] = "Warrior"
+            comType[1] = 'https://vignette.wikia.nocookie.net/2007scape/images/f/fe/Attack_icon.png/revision/latest?cb=20180424002328'
             base = base + melee
         elif mage > ranged:
-                comType = "Mage"
+                comType[0] = "Mage"
+                comType[1] = 'https://vignette.wikia.nocookie.net/2007scape/images/5/5c/Magic_icon.png/revision/latest/scale-to-width-down/21?cb=20180424010803'
                 base = base + mage
         else:
-            comType = "Ranger"
+            comType[0] = "Ranger"
+            comType[1] = 'https://vignette.wikia.nocookie.net/2007scape/images/1/19/Ranged_icon.png/revision/latest/scale-to-width-down/21?cb=20180424010745'
             base = base + ranged
         #Traces out the pie chart for combat breakdown
         trace = go.Pie(
@@ -75,7 +79,7 @@ class combat:
         #Creates the figure, saves that figure as an image, submits the image along with a message about the character then returns
         fig = go.Figure(data=[trace,trace1], layout=layout)
         py.image.save_as(fig, filename=(username + '.png'))
-        await ctx.bot.say("**" + username + "**\n`Combat Type: " + comType + "`\n`Combat Level: " + str(base) + "`")
+        await ctx.bot.say("**" + username + "**\n`Combat Type: " + comType[0] + "`\n`Combat Level: " + str(base) + "`")
         await ctx.bot.upload(username + '.png')
         os.remove(username + '.png')
         return

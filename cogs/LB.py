@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import embeds
 from lib.labels import labels
 from lib.database import database
 
@@ -8,22 +9,23 @@ class LB:
     def __init__(self,bot):
         self.bot = bot
         self.labels = labels().getLabels()
+        self.icons = labels().getIcons()
 
     @commands.command(pass_context=True)
     async def LB(self, ctx):
-        data = " ".join(ctx.message.content.split(" ")[1:])
+        data = " ".join(ctx.message.content.split(" ")[1:]).lower()
         if data == "":
             await ctx.bot.say("THIS IS NOT YET IMPLEMENTED")
             return
         try:
-            data = data.capitalize()
-            self.labels.index(data)
-            msg = "**{} Leaderboard:**".format(data)
-            data = data.lower()
+            msg = ""
+            skillName = data.capitalize()
             data = database().leaderBoard(data)
             for x in range(0,len(data)):
-                msg += "\n`" + data[x][0] + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}`".format(int(data[x][1]))
-            await ctx.bot.say(msg)
+                msg += "`" + data[x][0] + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}`\n".format(int(data[x][1]))
+            emb = embeds.Embed(title="{} Leaderboard:".format(skillName), description=msg, color=0x9b59b6)
+            emb.set_thumbnail(url=self.icons[self.labels.index(skillName)])
+            await ctx.bot.say(embed=emb)
             return
         except:
             await ctx.bot.say("That skill was not found")
