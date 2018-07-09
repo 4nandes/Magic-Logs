@@ -1,9 +1,11 @@
 import sqlite3
+from lib.labels import labels
 
 class database:
     def __init__(self):
         self.conn = sqlite3.connect('./test.db')
         self.c = self.conn.cursor()
+        self.labels = labels().getLabels()
     
     #########
     #Getters#
@@ -26,15 +28,18 @@ class database:
     def lastStatsXP(self, username):
         self.c.execute("SELECT overallXP, attackXP, defenceXP, strengthXP, hitpointsXP, rangedXP, prayerXP, magicXP, cookingXP, woodcuttingXP, fletchingXP, fishingXP, firemakingXP, craftingXP, smithingXP, miningXP, herbloreXP, agilityXP, thievingXP, slayerXP, farmingXP, runecraftingXP, hunterXP, constructionXP FROM Statistic WHERE runescapeUsername = (?) ORDER BY timestamp DESC", (username,))
         return self.c.fetchone()
-
-    def newUser(self, authorID, RSUN, serverID):
-        try:
-            self.c.execute("INSERT INTO User VALUES(?,?,?)", (authorID, RSUN, serverID))
-            self.conn.commit()
-            return True
-        except:
-            return False
     
+    def highScores(self):
+        self.c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((self.labels[0]+'XP'),(self.labels[0]+'Lvl'),(self.labels[0]+'Lvl')))
+        data = self.c.fetchone()
+        msg = "`Overall Lvl" + ("."*(20-len("Overall Lvl"))) + data[0] + (" "*(21-len(data[0]))) +"Lvl:" + str(data[2])  + "`\n"
+        for x in range(0,24):
+            self.c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((self.labels[x]+'XP'),(self.labels[x]+'Lvl'),(self.labels[x]+'XP')))
+            data = self.c.fetchone()
+            msg += "`{}".format(self.labels[x])
+            msg += ("."*(20-len(self.labels[x]))) + data[0] + (" "*(20-len(data[0]))) + " XP:" + "{:,}`\n".format(int(data[1]))
+        return msg
+
     #########
     #Setters#
     #########
@@ -46,3 +51,10 @@ class database:
         except:
             return False
 
+    def newUser(self, authorID, RSUN, serverID):
+        try:
+            self.c.execute("INSERT INTO User VALUES(?,?,?)", (authorID, RSUN, serverID))
+            self.conn.commit()
+            return True
+        except:
+            return False

@@ -15,7 +15,10 @@ class LB:
     async def LB(self, ctx):
         data = " ".join(ctx.message.content.split(" ")[1:]).lower()
         if data == "":
-            await ctx.bot.say("THIS IS NOT YET IMPLEMENTED")
+            msg = database().highScores()
+            emb = embeds.Embed(title="Server Leaderboard",description=msg, color=0x9b59b6)
+            emb.set_thumbnail(url=self.icons[0])
+            await ctx.bot.say(embed=emb)
             return
         try:
             msg = ""
