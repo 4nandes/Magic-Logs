@@ -9,6 +9,11 @@ class GE:
         self.bot = bot
 
     @commands.command(pass_context=True)
+    async def test(self,ctx):
+        await ctx.bot.say("Deez Nuts")
+        return
+        
+    @commands.command(pass_context=True, help="Lol jack sux", brief="aylmao")
     async def GE(self, ctx):
         item = " ".join(ctx.message.content.split(" ")[1:]).lower()
         try:
