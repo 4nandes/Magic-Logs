@@ -36,7 +36,7 @@ class register:
             inserter.append(datetime.date.today())
             if not database().insertStats(inserter):
                 name = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
-                await ctx.bot.say("**ERROR**\nThat username has already been registered with the OldSchool RuneScape account: **{}**".format(name))
+                await ctx.bot.say("That username has been registered with the OldSchool RuneScape account: **{}** in another server\nIf this was your doing, great. If it is not, contact dev.".format(name))
                 return
             return
         else:
