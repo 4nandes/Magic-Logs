@@ -19,9 +19,9 @@ class GE:
             msg += "**30 Day Trend:**\n" + str(sauce['item']['day30']['change']) + "\n"
             #msg += "**90 Day Trend:**\n" + str(sauce['item']['day90']['change']) + "\n"
             #msg += "**180 Day Trend:**\n" + str(sauce['item']['day180']['change']) + "\n"
-            if str(sauce['item']['today']['price']).startswith("+"):
+            if str(sauce['item']['day30']['change']).startswith("+"):
                 color = 0x2ecc71
-            elif str(sauce['item']['today']['price']).startswith("-"):
+            elif str(sauce['item']['day30']['change']).startswith("-"):
                 color = 0xe74c3c
             else:
                 color = 0x3498db
