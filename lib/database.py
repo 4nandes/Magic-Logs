@@ -40,6 +40,14 @@ class database:
             msg += ("."*(20-len(self.labels[x]))) + data[0] + (" "*(20-len(data[0]))) + " XP:" + "{:,}`\n".format(int(data[1]))
         return msg
 
+    def historyGet(self, username,skill):
+        self.c.execute("SELECT fishingXP FROM Statistic WHERE runescapeUsername = (?) ORDER BY timeStamp ASC", (username,))
+        return self.c.fetchall()
+
+    def timeStamp(self,username):
+        self.c.execute("SELECT timeStamp FROM Statistic WHERE runescapeUsername = (?) ORDER BY timeStamp ASC",(username,))
+        return self.c.fetchall()
+    
     #########
     #Setters#
     #########

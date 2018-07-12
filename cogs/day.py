@@ -27,8 +27,8 @@ class day:
         discordName = await ctx.bot.get_user_info(ctx.message.author.id)
         emb.set_footer(text=(str(discordName) + " [" + str(datetime.date.today())  + "]"), icon_url=ctx.message.author.avatar_url)
         await ctx.bot.say(embed=emb)
-
     
+
 def setup(bot):
     bot.add_cog(day(bot))
     print("LOADED")

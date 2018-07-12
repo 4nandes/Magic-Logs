@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import embeds
 from lib.beautInfo import beautInfo
 from lib.labels import labels
 from lib.database import database
@@ -20,11 +21,13 @@ class stats:
         if data == "":
             await ctx.bot.say("That username could not be found")
             return
-        msg = "**" + username + "'s stats:**\n"
+        title = "**" + username + "'s stats:**"
+        msg = ''
         for x in range(0,24):
             info = data[x].split(",")
             msg += "`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
-        await ctx.bot.say(msg)
+        emb = embeds.Embed(title=title,description=msg, color=0x206694)
+        await ctx.bot.say(embed=emb)
         return
 
 def setup(bot):
