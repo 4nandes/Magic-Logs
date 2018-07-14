@@ -26,7 +26,7 @@ class day:
         emb = embeds.Embed(title=username,description=msg, color=0xc27c0e)
         discordName = await ctx.bot.get_user_info(ctx.message.author.id)
         totXP = "{:,}".format(int(dataNow[0].split(",")[2]) - dataThen[0])
-        emb.set_footer(text=(str(discordName) + " [" + totXP + "]"), icon_url=ctx.message.author.avatar_url)
+        emb.set_footer(text=(str(discordName) + " " + totXP + "xp"), icon_url=ctx.message.author.avatar_url)
         await ctx.bot.say(embed=emb)
     
 
