@@ -19,7 +19,6 @@ bot = commands.Bot(command_prefix="$", description="OSRS flexing bot")
 
 @bot.event
 async def on_ready():
-    print('Logged in as Martin Yan')
     await LoadCogs()
     print('All cogs have been loaded')
     

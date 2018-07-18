@@ -30,7 +30,7 @@ class LB:
             emb.set_thumbnail(url=self.icons[self.labels.index(skillName)])
             await ctx.bot.say(embed=emb)
             return
-        except:
+        except ValueError:
             await ctx.bot.say("That skill was not found")
             return
 

@@ -18,11 +18,12 @@ class database:
         return ""
 
     def userList(self, serverID):
-        self.c.execute("SELECT DISTINCT runescapeUsername, discordID FROM User WHERE serverID = {}".format(serverID))
+        self.c.execute("SELECT DISTINCT runescapeUsername, discordID FROM User WHERE serverID = (?)",(serverID,))
         return self.c.fetchall()
 
     def leaderBoard(self, skillName):
-        self.c.execute("SELECT runescapeUsername, {}, {} FROM Statistic GROUP BY runescapeUsername ORDER BY {} DESC".format((skillName+'XP'),(skillName+'Lvl'),(skillName+'XP')))
+        self.labels.index(skillName.capitalize())    
+        self.c.execute("SELECT runescapeUsername, {}XP, {}Lvl FROM Statistic GROUP BY runescapeUsername ORDER BY {}XP DESC".format(skillName,skillName,skillName))
         return self.c.fetchall()
     
     def lastStatsXP(self, username):
