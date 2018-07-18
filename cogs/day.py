@@ -25,7 +25,8 @@ class day:
                 msg += "\n`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "{:,}".format(int(info[2]) - dataThen[x]) + "`"
         emb = embeds.Embed(title=username,description=msg, color=0xc27c0e)
         discordName = await ctx.bot.get_user_info(ctx.message.author.id)
-        emb.set_footer(text=(str(discordName) + " [" + str(datetime.date.today())  + "]"), icon_url=ctx.message.author.avatar_url)
+        totXP = "{:,}".format(int(dataNow[0].split(",")[2]) - dataThen[0])
+        emb.set_footer(text=(str(discordName) + " (" + totXP + "xp)"), icon_url=ctx.message.author.avatar_url)
         await ctx.bot.say(embed=emb)
     
 
