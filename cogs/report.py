@@ -4,20 +4,35 @@ from lib.database import database
 from lib.labels import labels
 from discord import embeds
 import datetime
+from datetime import timedelta
 
 class report:
     def __init__(self, bot):
         self.bot = bot
         self.labels = labels().getLabels()
-
+        
+    # This is fine and dandy but in the end I really need to learn how decorators work
+    # because this seems like a situation that is ripe for a decorator
     @commands.command(pass_context=True)
     async def report(self,ctx):
+        reportLength = " ".join(ctx.message.content.split(" ")[1:]).lower()
         username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         if username == "":
             await ctx.bot.say("You must be registered to use this command")
             return
+        if reportLength == "":
+            dataThen = database().getStatsXP(username, datetime.date.today())
+        elif reportLength == "week":
+            compareDate = (datetime.date.today() - datetime.timedelta(days=7))
+            dataThen = database().getStatsXP(username, compareDate)
+        elif reportLength == "month":
+            compareDate = (datetime.date.today() - datetime.timedelta(days=30))
+            dataThen = database().getStatsXP(username, compareDate)
+        elif reportLength == "all":
+            dataThen = database().firstStatsXP(username)
+        else:
+            await self.bot.say("Accepted timeframes:\n`week/Week`\n`month/Month`\n`all/All`")
         dataNow = beautInfo().userStats(username)
-        dataThen = database().lastStatsXP(username)
         msg = ""
         for x in range(1,24):
             info = dataNow[x].split(",")

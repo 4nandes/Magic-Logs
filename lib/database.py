@@ -26,8 +26,34 @@ class database:
         self.c.execute("SELECT runescapeUsername, {}XP, {}Lvl FROM Statistic GROUP BY runescapeUsername ORDER BY {}XP DESC".format(skillName,skillName,skillName))
         return self.c.fetchall()
     
-    def lastStatsXP(self, username):
-        self.c.execute("SELECT overallXP, attackXP, defenceXP, strengthXP, hitpointsXP, rangedXP, prayerXP, magicXP, cookingXP, woodcuttingXP, fletchingXP, fishingXP, firemakingXP, craftingXP, smithingXP, miningXP, herbloreXP, agilityXP, thievingXP, slayerXP, farmingXP, runecraftingXP, hunterXP, constructionXP FROM Statistic WHERE runescapeUsername = (?) ORDER BY timestamp DESC", (username,))
+    def firstStatsXP(self, username):
+        self.c.execute("""SELECT overallXP, attackXP, defenceXP, 
+                                strengthXP, hitpointsXP, rangedXP, 
+                                prayerXP, magicXP, cookingXP, 
+                                woodcuttingXP, fletchingXP, fishingXP, 
+                                firemakingXP, craftingXP, smithingXP, 
+                                miningXP, herbloreXP, agilityXP, 
+                                thievingXP, slayerXP, farmingXP, 
+                                runecraftingXP, hunterXP, constructionXP 
+                                FROM Statistic 
+                                WHERE runescapeUsername = (?) 
+                                ORDER BY timestamp ASC""", 
+                                (username,))
+        return self.c.fetchone()
+
+    def getStatsXP(self, username, timeStamp):
+        self.c.execute("""SELECT overallXP, attackXP, defenceXP, 
+                                strengthXP, hitpointsXP, rangedXP, 
+                                prayerXP, magicXP, cookingXP, 
+                                woodcuttingXP, fletchingXP, fishingXP, 
+                                firemakingXP, craftingXP, smithingXP, 
+                                miningXP, herbloreXP, agilityXP, 
+                                thievingXP, slayerXP, farmingXP, 
+                                runecraftingXP, hunterXP, constructionXP 
+                                FROM Statistic 
+                                WHERE runescapeUsername = (?) AND timeStamp = (?) 
+                                ORDER BY timestamp DESC""", 
+                                (username,timeStamp,))
         return self.c.fetchone()
     
     def highScores(self):
