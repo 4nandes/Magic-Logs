@@ -35,14 +35,14 @@ class flex:
             try:
                 lvlCaller = dataCaller[labels().index(skill)].split(",")
                 proceed = True
-            except:
+            except ValueError:
                 await ctx.bot.say('Could not find the skill "{}", try again'.format(skill))
                 try:
-                    skill = await ctx.bot.wait_for_message(timeout=4.0, author=ctx.message.author)
-                    skill = skill.content.capitalize()
-                except:
-                    await ctx.bot.say("Took too long to respond")
-                    return
+                        skill = await ctx.bot.wait_for_message(timeout=4.0, author=ctx.message.author)
+                        skill = skill.content.capitalize()
+                except AttributeError:
+                        await ctx.bot.say("Took too long to respond")
+                        return
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         lvlCaller = dataCaller[labels().index(skill)].split(",") 
         lvlRec = dataRec[labels().index(skill)].split(",")
