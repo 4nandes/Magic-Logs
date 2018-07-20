@@ -37,7 +37,8 @@ class history:
             print(len(dataThen))
             msg += "**{}**".format(dataThen[24])
         else:
-            await self.bot.say("Accepted timeframes:\n`week/Week`\n`month/Month`\n`all/All`")
+            await self.bot.say("Accepted timeframes:\n`week`\n`month`\n`all`")
+            return
         dataNow = beautInfo().userStats(username)
         try:
             for x in range(1,24):
