@@ -34,7 +34,8 @@ class database:
                                 firemakingXP, craftingXP, smithingXP, 
                                 miningXP, herbloreXP, agilityXP, 
                                 thievingXP, slayerXP, farmingXP, 
-                                runecraftingXP, hunterXP, constructionXP 
+                                runecraftingXP, hunterXP, constructionXP,
+                                timeStamp 
                                 FROM Statistic 
                                 WHERE runescapeUsername = (?) 
                                 ORDER BY timestamp ASC""", 

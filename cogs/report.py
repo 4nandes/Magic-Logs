@@ -17,27 +17,35 @@ class report:
     async def report(self,ctx):
         reportLength = " ".join(ctx.message.content.split(" ")[1:]).lower()
         username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
+        msg = ""
         if username == "":
             await ctx.bot.say("You must be registered to use this command")
             return
         if reportLength == "":
+            msg += "**{}**".format(datetime.date.today())
             dataThen = database().getStatsXP(username, datetime.date.today())
         elif reportLength == "week":
             compareDate = (datetime.date.today() - datetime.timedelta(days=7))
+            msg += "**{}**".format(compareDate)
             dataThen = database().getStatsXP(username, compareDate)
         elif reportLength == "month":
             compareDate = (datetime.date.today() - datetime.timedelta(days=30))
+            msg += "**{}**".format(compareDate)
             dataThen = database().getStatsXP(username, compareDate)
         elif reportLength == "all":
             dataThen = database().firstStatsXP(username)
+            msg += "**{}**".format(dataThen[25])
         else:
             await self.bot.say("Accepted timeframes:\n`week/Week`\n`month/Month`\n`all/All`")
         dataNow = beautInfo().userStats(username)
-        msg = ""
-        for x in range(1,24):
-            info = dataNow[x].split(",")
-            if int(info[2]) > dataThen[x]:
-                msg += "\n`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "{:,}".format(int(info[2]) - dataThen[x]) + "`"
+        try:
+            for x in range(1,24):
+                info = dataNow[x].split(",")
+                if int(info[2]) > dataThen[x]:
+                    msg += "\n`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "{:,}".format(int(info[2]) - dataThen[x]) + "`"
+        except TypeError:
+            await self.bot.say("Your account has not collected enough data to go that far back")
+            return
         emb = embeds.Embed(title=username,description=msg, color=0xc27c0e)
         discordName = await ctx.bot.get_user_info(ctx.message.author.id)
         totXP = "{:,}".format(int(dataNow[0].split(",")[2]) - dataThen[0])
