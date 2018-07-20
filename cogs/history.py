@@ -6,7 +6,7 @@ from discord import embeds
 import datetime
 from datetime import timedelta
 
-class report:
+class history:
     def __init__(self, bot):
         self.bot = bot
         self.labels = labels().getLabels()
@@ -14,7 +14,7 @@ class report:
     # This is fine and dandy but in the end I really need to learn how decorators work
     # because this seems like a situation that is ripe for a decorator
     @commands.command(pass_context=True)
-    async def report(self,ctx):
+    async def history(self,ctx):
         reportLength = " ".join(ctx.message.content.split(" ")[1:]).lower()
         username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         msg = ""
@@ -54,5 +54,5 @@ class report:
         await self.bot.say(embed=emb)
 
 def setup(bot):
-    bot.add_cog(report(bot))
+    bot.add_cog(history(bot))
     print("LOADED")
