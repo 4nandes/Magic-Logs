@@ -16,7 +16,7 @@ class GE:
 
     @commands.command(pass_context=True)
     async def test(self,ctx):
-        await ctx.bot.say("Deez Nuts")
+        await self.bot.say("Deez Nuts")
         return
         
     @commands.command(pass_context=True, help="Lol jack sux", brief="aylmao")
@@ -55,12 +55,12 @@ class GE:
             emb = embeds.Embed(title=sauce['item']['name'], description=msg, color=color)
             emb.set_thumbnail(url=sauce['item']['icon'])
             emb.set_footer(text=sauce['item']['description'])
-            await ctx.bot.say(embed=emb)
+            await self.bot.say(embed=emb)
         except KeyError as exc:
-            await ctx.bot.say("Youve found an item with a floating table above it. Letting Dev know to add it to the whitelist...\n\n <@182320411718057993>\nEROR RAISED: {}".format(exc))
+            await self.bot.say("Youve found an item with a floating table above it. Letting Dev know to add it to the whitelist...\n\n <@182320411718057993>\nEROR RAISED: {}".format(exc))
             return
         except IndexError:
-            await ctx.bot.say(item + " not found")
+            await self.bot.say(item + " not found")
             return
         return
     

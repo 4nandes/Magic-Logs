@@ -19,7 +19,7 @@ class stats:
             username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         data = beautInfo().userStats(username)
         if data == "":
-            await ctx.bot.say("That username could not be found")
+            await self.bot.say("That username could not be found")
             return
         title = "**" + username + "'s stats:**"
         msg = ''
@@ -27,7 +27,7 @@ class stats:
             info = data[x].split(",")
             msg += "`-" + self.labels[x] + ("."*(20-len(self.labels[x]))) + "Lvl: " + info[1] +(" "*(4-len(info[1]))) + " XP: " + "{:,}".format(int(info[2])) + "`\n"
         emb = embeds.Embed(title=title,description=msg, color=0x206694)
-        await ctx.bot.say(embed=emb)
+        await self.bot.say(embed=emb)
         return
 
 def setup(bot):

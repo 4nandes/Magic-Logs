@@ -18,7 +18,7 @@ class LB:
             msg = database().highScores()
             emb = embeds.Embed(title="Server Leaderboard",description=msg, color=0x9b59b6)
             emb.set_thumbnail(url=self.icons[0])
-            await ctx.bot.say(embed=emb)
+            await self.bot.say(embed=emb)
             return
         try:
             msg = ""
@@ -28,10 +28,10 @@ class LB:
                 msg += "`" + data[x][0] + ("."*(20-len(data[x][0])))  + "Lvl: " + str(data[x][2]) +(" "*(4-len(str(data[x][2])))) + " XP: " + "{:,}`\n".format(int(data[x][1]))
             emb = embeds.Embed(title="{} Leaderboard:".format(skillName), description=msg, color=0x9b59b6)
             emb.set_thumbnail(url=self.icons[self.labels.index(skillName)])
-            await ctx.bot.say(embed=emb)
+            await self.bot.say(embed=emb)
             return
         except ValueError:
-            await ctx.bot.say("That skill was not found")
+            await self.bot.say("That skill was not found")
             return
 
 def setup(bot):

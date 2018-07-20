@@ -17,7 +17,7 @@ class combat:
             username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         data = beautInfo().userStats(username)
         if data == "":
-            ctx.bot.say("That username was not found")
+            self.bot.say("That username was not found")
             return
         base = .25*(float(data[2].split(",")[1]) + float(data[4].split(",")[1]) + floor(float(data[6].split(",")[1])/2))
         melee = .325*(float(data[1].split(",")[1]) + float(data[3].split(",")[1]))
@@ -79,8 +79,8 @@ class combat:
         #Creates the figure, saves that figure as an image, submits the image along with a message about the character then returns
         fig = go.Figure(data=[trace,trace1], layout=layout)
         py.image.save_as(fig, filename=(username + '.png'))
-        await ctx.bot.say("**" + username + "**\n`Combat Type: " + comType[0] + "`\n`Combat Level: " + str(base) + "`")
-        await ctx.bot.upload(username + '.png')
+        await self.bot.say("**" + username + "**\n`Combat Type: " + comType[0] + "`\n`Combat Level: " + str(base) + "`")
+        await self.bot.upload(username + '.png')
         os.remove(username + '.png')
         return
 

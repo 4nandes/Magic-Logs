@@ -19,7 +19,7 @@ class report:
         username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         msg = ""
         if username == "":
-            await ctx.bot.say("You must be registered to use this command")
+            await self.bot.say("You must be registered to use this command")
             return
         if reportLength == "":
             msg += "**{}**".format(datetime.date.today())
@@ -48,10 +48,10 @@ class report:
             await self.bot.say("Your account has not collected enough data to go that far back")
             return
         emb = embeds.Embed(title=username,description=msg, color=0xc27c0e)
-        discordName = await ctx.bot.get_user_info(ctx.message.author.id)
+        discordName = await self.bot.get_user_info(ctx.message.author.id)
         totXP = "{:,}".format(int(dataNow[0].split(",")[2]) - dataThen[0])
         emb.set_footer(text=(str(discordName) + " (" + totXP + "xp)"), icon_url=ctx.message.author.avatar_url)
-        await ctx.bot.say(embed=emb)
+        await self.bot.say(embed=emb)
 
 def setup(bot):
     bot.add_cog(report(bot))

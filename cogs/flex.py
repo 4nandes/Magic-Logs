@@ -19,7 +19,7 @@ class flex:
         #If they are trying to use it with a default, check for their OSRS username in the database
         unCaller = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         if unCaller == "":
-            await ctx.bot.say("You must be registered to use this command")
+            await self.bot.say("You must be registered to use this command")
             return
         #Attempt to get both of their data from the OSRS highscores website, if either throws an error, then
         #we will send a message stating that one of the two usernames that was submitted was improper
@@ -27,7 +27,7 @@ class flex:
         dataCaller = beautInfo().userStats(unCaller)
         dataRec = beautInfo().userStats(unRec)
         if dataRec == "":
-            await ctx.bot.say("One or both of the usernames provided does not have public highscore data") 
+            await self.bot.say("One or both of the usernames provided does not have public highscore data") 
             return
         #Continues to bother the person until they input a proper skill
         proceed = False 
@@ -36,18 +36,18 @@ class flex:
                 lvlCaller = dataCaller[labels().index(skill)].split(",")
                 proceed = True
             except ValueError:
-                await ctx.bot.say('Could not find the skill "{}", try again'.format(skill))
+                await self.bot.say('Could not find the skill "{}", try again'.format(skill))
                 try:
-                        skill = await ctx.bot.wait_for_message(timeout=4.0, author=ctx.message.author)
+                        skill = await self.bot.wait_for_message(timeout=4.0, author=ctx.message.author)
                         skill = skill.content.capitalize()
                 except AttributeError:
-                        await ctx.bot.say("Took too long to respond")
+                        await self.bot.say("Took too long to respond")
                         return
         #Attempt to build a bar chart and a taunting message, if fail then state that the skill they input does not exist
         lvlCaller = dataCaller[labels().index(skill)].split(",") 
         lvlRec = dataRec[labels().index(skill)].split(",")
         if int(lvlCaller[1]) > int(lvlRec[1]):
-            await ctx.bot.say( 
+            await self.bot.say( 
             "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
             %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
             #Traces out the bar chart
@@ -67,8 +67,8 @@ class flex:
             #Create the chart, save as image, submit image, delete image
             fig = go.Figure(data=[trace1], layout=layout)
             py.image.save_as(fig, filename=(unCaller + '.png'))
-            await ctx.bot.upload(unCaller + '.png')
-            await ctx.bot.say("*Sit kid*")
+            await self.bot.upload(unCaller + '.png')
+            await self.bot.say("*Sit kid*")
             os.remove((unCaller + '.png'))
         return
 

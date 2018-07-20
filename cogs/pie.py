@@ -22,7 +22,7 @@ class pie:
             username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
         data = beautInfo().userStats(username)
         if data == "":
-            await ctx.bot.say("That username does not exist")
+            await self.bot.say("That username does not exist")
             return
         for x in range(1,24):
             levels.append(int(data[x].split(",")[2]))
@@ -55,8 +55,8 @@ class pie:
         #Finally it deletes the picture and returns
         fig = go.Figure(data=[trace], layout=layout)
         py.image.save_as(fig, filename=(username + '.png'))
-        await ctx.bot.say("**" + username + "'s XP breakdown:**\n" )
-        await ctx.bot.upload(username + '.png')
+        await self.bot.say("**" + username + "'s XP breakdown:**\n" )
+        await self.bot.upload(username + '.png')
         os.remove((username + '.png'))
 
 def setup(bot):
