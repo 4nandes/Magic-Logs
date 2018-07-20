@@ -35,7 +35,7 @@ class report:
         elif reportLength == "all":
             dataThen = database().firstStatsXP(username)
             print(len(dataThen))
-            msg += "**{}**".format(dataThen[25])
+            msg += "**{}**".format(dataThen[24])
         else:
             await self.bot.say("Accepted timeframes:\n`week/Week`\n`month/Month`\n`all/All`")
         dataNow = beautInfo().userStats(username)
