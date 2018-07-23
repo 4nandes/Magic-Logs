@@ -38,20 +38,23 @@ class GE:
                 color = 0xe74c3c
             else:
                 color = 0x3498db
-            dfs = pd.read_html('http://oldschoolrunescape.wikia.com/wiki/{}'.format(item.replace(" ","_")))
-            natRune = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=561").json()
-            if str(sauce['item']['current']['price']).endswith('m'):
-                itemValue = float(str(sauce['item']['current']['price'])[:-1]) * 1000000
-            elif str(sauce['item']['current']['price']).endswith('k'):
-                itemValue = float(str(sauce['item']['current']['price'])[:-1]) * 1000
-            else:
-                itemValue = int(str(sauce['item']['current']['price']).replace(",",""))
-            profit = int(dfs[tableLoc][1][7][:-5].replace(",","")) - (itemValue + int(natRune['item']['current']['price']))
-            msg += "**High Alchemy Profit:**\n"  
-            if profit > 0:
-                msg += "+" + "{:,}".format(profit) + " gp          :white_check_mark:"
-            else:
-                msg += "{:,}".format(profit) + " gp          :no_entry_sign:"
+            try:
+                dfs = pd.read_html('http://oldschoolrunescape.wikia.com/wiki/{}'.format(item.replace(" ","_")))
+                natRune = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=561").json()
+                if str(sauce['item']['current']['price']).endswith('m'):
+                    itemValue = float(str(sauce['item']['current']['price'])[:-1]) * 1000000
+                elif str(sauce['item']['current']['price']).endswith('k'):
+                    itemValue = float(str(sauce['item']['current']['price'])[:-1]) * 1000
+                else:
+                    itemValue = int(str(sauce['item']['current']['price']).replace(",",""))
+                profit = int(dfs[tableLoc][1][7][:-5].replace(",","")) - (itemValue + int(natRune['item']['current']['price']))
+                msg += "**High Alchemy Profit:**\n"  
+                if profit > 0:
+                    msg += "+" + "{:,}".format(profit) + " gp          :white_check_mark:"
+                else:
+                    msg += "{:,}".format(profit) + " gp          :no_entry_sign:"
+            except ValueError:
+                msg += "**High Alch 404**" 
             emb = embeds.Embed(title=sauce['item']['name'], description=msg, color=color)
             emb.set_thumbnail(url=sauce['item']['icon'])
             emb.set_footer(text=sauce['item']['description'])
