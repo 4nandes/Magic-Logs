@@ -22,9 +22,9 @@ class history:
             return
         if reportLength == "":
             msg += "**{}**".format(datetime.date.today())
-            now = datetime.now.time()
+            now = datetime.now()
             day = datetime.date.today()
-            if time(00,00) <= now <= time(4,00):
+            if time(0,00) <= now.time() <= time(4,00):
                 day = (datetime.date.today() - datetime.timedelta(days=1))
             dataThen = database().getStatsXP(username, day)
         elif reportLength == "week":
