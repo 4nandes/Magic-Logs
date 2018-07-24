@@ -3,8 +3,8 @@ from lib.beautInfo import beautInfo
 from lib.database import database
 from lib.labels import labels
 from discord import embeds
-import datetime 
-from datetime import timedelta, date
+import datetime as dt
+from datetime import datetime, timedelta, date, time
 
 class history:
     def __init__(self, bot):
@@ -26,14 +26,15 @@ class history:
             now = datetime.now()
             day = date.today()
             if time(0,00) <= now.time() <= time(4,00):
-                day = (day - datetime.timedelta(days=1))
+                day = (day - dt.timedelta(days=1))
+            print(day)
             dataThen = database().getStatsXP(username, day)
         elif reportLength == "week":
-            compareDate = (date.today() - datetime.timedelta(days=7))
+            compareDate = (date.today() - dt.timedelta(days=7))
             msg += "**{}**".format(compareDate)
             dataThen = database().getStatsXP(username, compareDate)
         elif reportLength == "month":
-            compareDate = (date.today() - datetime.timedelta(days=30))
+            compareDate = (date.today() - dt.timedelta(days=30))
             msg += "**{}**".format(compareDate)
             dataThen = database().getStatsXP(username, compareDate)
         elif reportLength == "all":
