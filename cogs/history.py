@@ -27,7 +27,6 @@ class history:
             day = date.today()
             if time(0,00) <= now.time() <= time(4,00):
                 day = (day - dt.timedelta(days=1))
-            print(day)
             dataThen = database().getStatsXP(username, day)
         elif reportLength == "week":
             compareDate = (date.today() - dt.timedelta(days=7))
@@ -39,7 +38,6 @@ class history:
             dataThen = database().getStatsXP(username, compareDate)
         elif reportLength == "all":
             dataThen = database().firstStatsXP(username)
-            print(len(dataThen))
             msg += "**{}**".format(dataThen[24])
         else:
             await self.bot.say("Accepted timeframes:\n`week`\n`month`\n`all`")
