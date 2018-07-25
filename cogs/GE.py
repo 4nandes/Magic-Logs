@@ -5,7 +5,7 @@ import pandas as pd
 
 
 #add an option that will show all of the details for an item and otherwise just put what the 30 day trend is
-class GE:
+class GrandExchange:
     def __init__(self, bot):
         self.bot = bot
         self.knownOffenders = ['cannonball', 'white berries',
@@ -13,13 +13,8 @@ class GE:
                                 "greenman's ale(m)",'cactus spine','runite ore',
                                 'law rune', 'nature rune', 'runite bar',
                                 'shark']
-
-    @commands.command(pass_context=True)
-    async def test(self,ctx):
-        await self.bot.say("Deez Nuts")
-        return
         
-    @commands.command(pass_context=True, help="Lol jack sux", brief="aylmao")
+    @commands.command(pass_context=True, brief="Lookup item value and high alchemy profit", aliases=['ge','price','Price','value','Value'], help='Format:\n   $GE [Item Name]')
     async def GE(self, ctx):
         item = " ".join(ctx.message.content.split(" ")[1:]).lower()
         if any(item in s for s in self.knownOffenders):
@@ -68,5 +63,5 @@ class GE:
         return
     
 def setup(bot):
-    bot.add_cog(GE(bot))
+    bot.add_cog(GrandExchange(bot))
     print("LOADED")

@@ -3,16 +3,14 @@ from discord import embeds
 from lib.labels import labels
 from lib.database import database
 
-#Need to make sure that the leaderboard that is returned only contains the people that are in that particular server
-#at the moment it grabs all of the people. There needs to be a for loop for the RSUN's that are in the server that the message came from
-class LB:
+class ServerStats:
     def __init__(self,bot):
         self.bot = bot
         self.labels = labels().getLabels()
         self.icons = labels().getIcons()
 
-    @commands.command(pass_context=True)
-    async def LB(self, ctx):
+    @commands.command(pass_context=True,aliases=['lb','leaderboard','LB'],brief='Show the leaderboard for all skills or one skill', help='Format:\n   $Leaderboard [NONE|Skill Name]')
+    async def Leaderboard(self, ctx):
         data = " ".join(ctx.message.content.split(" ")[1:]).lower()
         if data == "":
             msg = database().highScores()
@@ -33,7 +31,18 @@ class LB:
         except ValueError:
             await self.bot.say("That skill was not found")
             return
+            
+    @commands.command(pass_context=True,aliases=['users','u','U'], brief='Display the users registered to the server',help='Format:\n   $Users [NONE]')
+    async def Users(self,ctx):
+        info = database().userList(ctx.message.server.id)
+        msg = ''
+        for x in range(0,len(info)):
+            leaderNick = await self.bot.get_user_info(info[x][1]) 
+            msg +=  "`" + info[x][0] + "."*(20-len(info[x][0])) + str(leaderNick) + "`\n"
+        emb = embeds.Embed(title='**Registered OSRS Accounts:**', description=msg, color=0x11806a)
+        await self.bot.say(embed=emb)
+        return
 
 def setup(bot):
-    bot.add_cog(LB(bot))
+    bot.add_cog(ServerStats(bot))
     print("LOADED")
