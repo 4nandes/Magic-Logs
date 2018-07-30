@@ -12,7 +12,7 @@ class GrandExchange:
                                 'cowhide', 'maple sapling',"greenman's ale",
                                 "greenman's ale(m)",'cactus spine','runite ore',
                                 'law rune', 'nature rune', 'runite bar',
-                                'shark']
+                                'shark','cosmic rune']
         
     @commands.command(pass_context=True, brief="Lookup item value and high alchemy profit", aliases=['ge','price','Price','value','Value'], help='Format:\n   $GE [Item Name]')
     async def GE(self, ctx):
