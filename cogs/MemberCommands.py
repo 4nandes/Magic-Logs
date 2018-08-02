@@ -91,6 +91,7 @@ class MemberCommands:
             day = date.today()
             if time(0,00) <= now.time() <= time(4,00):
                 day = (day - dt.timedelta(days=1))
+                msg = "**{}**".format(day - dt.timedelta(days=1))
             dataThen = database().getStatsXP(username, day)
         elif reportLength == "week":
             compareDate = (date.today() - dt.timedelta(days=7))
