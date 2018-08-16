@@ -7,13 +7,13 @@ import datetime as dt
 from datetime import datetime, timedelta, date, time
 import plotly.plotly as py
 import plotly.graph_objs as go
-import re
 import os
 
 class MemberCommands:
     def __init__(self, bot):
         self.bot = bot
         self.labels = labels().getLabels()
+
     @commands.command(pass_context=True,aliases=['flex','f','F'],brief='Compare your XP in a skill with another account',help='Format:\n   $Flex [Skill Name] [Account to compare to]')
     async def Flex(self,ctx):
         #Gets the content after the first space which holds who we are comparing to
@@ -123,39 +123,6 @@ class MemberCommands:
         await self.bot.say(embed=emb)
         return
         
-    @commands.command(pass_context=True,aliases=['register'], brief='Register your OSRS account to this server', help='Format:\n   $Register [OSRS Account Name]')
-    async def Register(self,ctx):
-        username = " ".join(ctx.message.content.split(" ")[1:])
-        if username == "":
-            username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
-        data = beautInfo().userStats(username)
-        if data == "":
-            await self.bot.say("That username could not be found")
-            return
-        #Checks to see if they would like to register this account name
-        await self.bot.say("**Are you sure you would like to register the name {}**\nThis CANNOT be undone unless the admin does it manually\n('yes''Yes''y''Y')".format(username))
-        yesOrNo = await self.bot.wait_for_message(timeout=15.0, author=ctx.message.author, channel=ctx.message.channel)
-        #Uses regular expressions to see if their response starts with a Y or y
-        if re.match('([y])|([Y])', yesOrNo.content):
-            #Prints out 
-            await self.bot.say("Associating Discord account: **{}**\nOldSchool RuneScape account: **{}**\nCurrent Nickname: **{}**".format(ctx.message.author, username, ctx.message.author.nick))
-            #Inserts them into the Database
-            if not database().newUser(ctx.message.author.id,username,ctx.message.server.id):
-                await self.bot.say("Something went wrong with registering your DiscordID to this server, contact dev")
-                return
-            inserter = [username]
-            for x in range(0,24):
-                inserter.append(data[x].split(",")[1])
-                inserter.append(data[x].split(",")[2])
-            inserter.append(dt.date.today())
-            if not database().insertStats(inserter):
-                name = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
-                await self.bot.say("That username has been registered with the OldSchool RuneScape account: **{}** in another server\nIf this was your doing, great. If it is not, contact dev.".format(name))
-                return
-            return
-        else:
-            await self.bot.say("Aborting...")
-            return
 
 def setup(bot):
     bot.add_cog(MemberCommands(bot))
