@@ -1,8 +1,21 @@
 # Magic Logs
-FlexBot is a python script that runs a Discord bot. The general purpose of the bot is to retrieve and display OSRS character data. Its inspiration is from the really stale meme [detailed here.][stale]
+"Magic Logs" is a python script that runs a Discord bot. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics.  
 
-[stale]:http://knowyourmeme.com/memes/u-ever-flex-on-niggas
 ## Commands:
+### $flex
+Format: `$flex [OSRS Username]`
+
+This command is only available to those who have a registered account.
+
+To use this command, put the account you would like to compare your account to in the OSRS Username field. The bot will then direct message you and ask what skill you would like to compare. After you have provided a proper skill, it will submit the amount of difference between your account and the account provided with a bar graph.
+
+![flex](https://i.imgur.com/dJxtczj.png)
+### $History
+Format: `$history [NONE|week|month|all]`
+
+This command is only available to those who have a registered account.
+
+This command will display the amount of XP that you have gained since the last XP snaphot (currently taken at 4AM PST) if you do not put anything after the command. Effectively this shows you the amount of XP that you have gained in the last 24 hours. If the bot has been tracking you for long enough, then you can use the week, month, or all option to show the amount of XP gained in the last week, month or since you started tracking your stats.
 ### $stats
 Format: `$stats [OSRS Username]`
 
@@ -19,14 +32,8 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 Gets and displays the statistics for an OSRS username in pie chart form. It seperates the pie based on XP. If the username's statistics cannot be found then the bot will notify the user of this.
 
 ![pie](https://i.imgur.com/pUfDwct.png)
-### $flex
-Format: `$flex [OSRS Username]`
 
-This command is only available to those who have a registered account.
 
-To use this command, put the account you would like to compare your account to in the OSRS Username field. The bot will then direct message you and ask what skill you would like to compare. After you have provided a proper skill, it will submit the amount of difference between your account and the account provided with a bar graph.
-
-![flex](https://i.imgur.com/dJxtczj.png)
 ### $combat
 Format: `$combat [OSRS Username]`
 
