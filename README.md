@@ -60,7 +60,7 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 Gets and displays the combat statistics for is OSRS username that was provided. If the username's statistics cannot be found then the bot will notify the user of this. The bot also displays the breakdown of how their combat lvl is calculated.
 
 ![combat](https://i.imgur.com/gaHxJIG.png)
-### $users
+### $Users
 Format: `$Users`
 
 Gets and displays the OSRS usernames that have been registered to the server so far.
