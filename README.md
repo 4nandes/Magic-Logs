@@ -2,6 +2,17 @@
 "Magic Logs" is a python script that runs a Discord bot. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics.  
 
 ## Commands:
+### $GE
+Format: `$GE [Item Name]`
+
+Looks up the given item and returns its:
+- Current Price
+- Change in value in the last 24 hours
+- Percent change in the last 30 days
+- High alchemy profit
+- Flavor Text
+- Icon
+
 ### $Flex
 Format: `$flex [OSRS Username]`
 
@@ -69,7 +80,7 @@ This is a wonderful tool that was made by "Danny" Rapptz. It allows for the comm
 ### Plotly
 https://plot.ly/python/
 
-Plotly is a python library that allows the bot to make visually pleasing graph images
+Plotly is a python library that allows the bot to make visually pleasing graphs
 ### Beautiful Soup
 https://www.crummy.com/software/BeautifulSoup/
 
