@@ -2,7 +2,7 @@
 "Magic Logs" is a python script that runs a Discord bot. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics.  
 
 ## Commands:
-### $flex
+### $Flex
 Format: `$flex [OSRS Username]`
 
 This command is only available to those who have a registered account.
@@ -16,7 +16,7 @@ Format: `$history [NONE|week|month|all]`
 This command is only available to those who have a registered account.
 
 This command will display the amount of XP that you have gained since the last XP snaphot (currently taken at 4AM PST) if you do not put anything after the command. Effectively this shows you the amount of XP that you have gained in the last 24 hours. If the bot has been tracking you for long enough, then you can use the week, month, or all option to show the amount of XP gained in the last week, month or since you started tracking your stats.
-### $stats
+### $Stats
 Format: `$stats [OSRS Username]`
 
 If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
@@ -24,7 +24,7 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 Gets and displays the statistics for the OSRS username that was provided, if the username's statistics cannot be found then the bot will notify the user of this.
 
 ![stats](https://i.imgur.com/WxwJOrx.png)
-### $pie
+### $Pie
 Format: `$pie [OSRS Username]`
 
 If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
@@ -34,7 +34,7 @@ Gets and displays the statistics for an OSRS username in pie chart form. It sepe
 ![pie](https://i.imgur.com/pUfDwct.png)
 
 
-### $combat
+### $Combat
 Format: `$combat [OSRS Username]`
 
 If the `[OSRS Username]` is left blank and your account is registered, then the command will use your registered username
@@ -42,20 +42,20 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 Gets and displays the combat statistics for is OSRS username that was provided. If the username's statistics cannot be found then the bot will notify the user of this. The bot also displays the breakdown of how their combat lvl is calculated.
 
 ![combat](https://i.imgur.com/gaHxJIG.png)
-### $register
+### $Register
 Format: `$register [OSRS Username]`
 
 Registers a Runescape username to a Discord account. If done properly, it should enable the ability to use the $flex command as well as using defaults on the $stats, $pie and $combat commands.
 
 ![register](https://i.imgur.com/BTjCDFJ.png)
-### $LB
-Format: `$LB [skill name]`
+### $Leaderboard
+Format: `$Leaderboard [skill name]`
 
 Gets and displays the leaderboard for the skill provided, if the skill cannot be found then the user will be notified with a DM that that skill could not be found.
 
 ![LB](https://i.imgur.com/HaCKXvI.png)
 ### $users
-Format: `$users`
+Format: `$Users`
 
 Gets and displays the OSRS usernames that have been registered to the server so far.
 
