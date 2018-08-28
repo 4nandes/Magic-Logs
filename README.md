@@ -1,4 +1,4 @@
-# FlexBot
+# Magic Logs
 FlexBot is a python script that runs a Discord bot. The general purpose of the bot is to retrieve and display OSRS character data. Its inspiration is from the really stale meme [detailed here.][stale]
 
 [stale]:http://knowyourmeme.com/memes/u-ever-flex-on-niggas
