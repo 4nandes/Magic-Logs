@@ -6,7 +6,7 @@ It all started as a joke, a small script that a friend and I used to tell each o
 If you would like to join the Dicord:
 ![Invite Link](https://discord.gg/DZqKTun) *
 
-*Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out.
+*_Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out._
 
 ## Commands:
 ### $GE
