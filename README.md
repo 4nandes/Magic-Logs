@@ -3,6 +3,8 @@
 
 It all started as a joke, a small script that a friend and I used to tell each other how much more XP we had in a particular skill (Flex command). Over time more commands were added to the bot, and now the bot has its own Discord community that has built up around it. 
 
+The name of the chat bot is inspired by the name of an in-game item "Magic Logs", because the bot behaves like a "magical" set of logged character data. 
+
 If you would like to join the Dicord:
 ![Invite Link](https://discord.gg/DZqKTun) *
 
