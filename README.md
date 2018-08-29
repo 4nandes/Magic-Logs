@@ -73,7 +73,7 @@ Gets and displays the leaderboard for the skill provided, if the skill cannot be
 
 If the `[Skill Name]` is left blank then the leaderboard of all skills is displayed along with the name of the person with the highest amount of XP in that skill.
 
-![LB](https://i.imgur.com/HaCKXvI.png)
+![LB](https://imgur.com/ubyDEp7)
 ## Sources:
 ### discord.py
 https://github.com/Rapptz/discord.py
