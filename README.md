@@ -105,3 +105,7 @@ Beautiful Soup is a python library that allows the bot to get information off of
 - Website for the bot
 - Ability to add roles by reacting to the bot with an emoji (Discord Feature)
 - Improve stability so that the bot can exist on many servers. At the moment it is not stable enough to be on more than one
+
+## Adding this bot to your server:
+If you would like this bot on your own discord server, email me for the link at: 
+4nandes@gmail.com
