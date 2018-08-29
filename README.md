@@ -1,15 +1,15 @@
 # Magic Logs ![MagicLogs](https://vignette.wikia.nocookie.net/2007scape/images/a/ac/Magic_logs_detail_animated.gif/revision/latest?cb=20180205042632) 
 
-**Magic Logs** is a python script that runs a Discord bot. Discord is a chat service that keeps conversations that have many users organized. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics within Discord.  
+**Magic Logs** is a python script for a Discord bot. Discord is a chat service that keeps conversations between many users organized. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics within Discord.  
 
-It all started as a joke, a small script that a friend and I used to tell each other how much more XP we had in a particular skill (Flex command). Over time more commands were added to the bot, and now the bot has its own Discord community that has built up around it. 
+It all started as a joke, a small script that a friend and I would use to tell each other how much more XP we had in a particular skill (This eventually became the flex command). Over time more commands were added to the bot, and now the bot has its own Discord community built up around it. 
 
 The name of the chat bot is inspired by the name of an in-game item "Magic Logs", because the bot behaves like a "magical" set of logged character data. 
 
-If you would like to join the Dicord:
+If you would like to join the Dicord to see the bot yourself:
 ![Invite Link](https://discord.gg/DZqKTun) *
 
-*_Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out._
+*_Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out. You will not be able to see any chat channels besides the rules channel until you are given a role. Instructions for obtaining a role on the server can be found in the rules channel_
 
 ## Commands:
 ### $GE
@@ -104,3 +104,4 @@ Beautiful Soup is a python library that allows the bot to get information off of
 - Weekly gain leaderboard posted every sunday
 - Website for the bot
 - Ability to add roles by reacting to the bot with an emoji (Discord Feature)
+- Improve stability so that the bot can exist on many servers. At the moment it is not stable enough to be on more than one
