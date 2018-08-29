@@ -51,7 +51,7 @@ class MemberCommands:
         lvlRec = dataRec[labels().index(skill)].split(",")
         if int(lvlCaller[1]) > int(lvlRec[1]):
             await self.bot.say( 
-            "You ever show off your lvl.%d in %s just to flex on them %s niggas?\n**Flex Strength:** %d Levels %s XP" 
+            "You ever show off your lvl.%d in %s just to flex on %s?\n**Flex Strength:** %d Levels %s XP" 
             %(int(lvlCaller[1]),skill,unRec,(int(lvlCaller[1]) - int(lvlRec[1])),"{:,}".format((int(lvlCaller[2]) - int(lvlRec[2])))))
             #Traces out the bar chart
             trace1 = go.Bar(
