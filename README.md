@@ -36,6 +36,7 @@ This command is only available to those who have a registered account.
 
 This command will display the amount of XP that you have gained since the last XP snaphot (currently taken at 4AM PST) if you do not put anything after the command. Effectively this shows you the amount of XP that you have gained in the last 24 hours. If the bot has been tracking you for long enough, then you can use the week, month, or all option to show the amount of XP gained in the last week, month or since you started tracking your stats.
 
+![History](https://i.imgur.com/5r07Ayz.png)
 ### $Register
 Format: `$Register @[Discord User]`
 
@@ -73,7 +74,7 @@ Format: `$Users`
 
 Gets and displays the OSRS usernames that have been registered to the server so far.
 
-![users](https://i.imgur.com/6sFOjtl.png)
+![users](https://i.imgur.com/g0E4ngq.png)
 ### $Leaderboard
 Format: `$Leaderboard [Skill Name]`
 
