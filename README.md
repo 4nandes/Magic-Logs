@@ -9,7 +9,7 @@ The name of the chat bot is inspired by the name of an in-game item "Magic Logs"
 If you would like to join the Dicord to see the bot yourself:
 ![Invite Link](https://discord.gg/DZqKTun) *
 
-*_Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out. You will not be able to see any chat channels besides the rules channel until you are given a role. Instructions for obtaining a role on the server can be found in the rules channel_
+*_Please note that this invite link is set up such that if you do not get a role assigned to you before you log out, you will be automatically kicked when you log out. You will not be able to see any chat channels besides the rules channel until you are given a role. Instructions for obtaining a role on the server can be found in the rules channel._
 
 ## Commands:
 ### $GE
