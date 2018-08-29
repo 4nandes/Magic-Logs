@@ -1,5 +1,12 @@
 # Magic Logs
-"Magic Logs" is a python script that runs a Discord bot. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics.  
+**Magic Logs** is a python script that runs a Discord bot. Discord is a chat service that keeps conversations that have many users organized. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics within Discord.  
+
+It all started as a joke, a small script that a friend and I used to tell each other how much more XP we had in a particular skill (Flex command). Over time more commands were added to the bot, and now the bot has its own Discord community that has built up around it. 
+
+If you would like to join the Dicord:
+![Invite Link](https://discord.gg/DZqKTun) *
+
+*Please note that this invite link is set up such that if you do not get a role assigned to you upon entering the server, you will be automatically kicked from it once you log out.
 
 ## Commands:
 ### $GE
@@ -13,6 +20,7 @@ Looks up the given item and returns its:
 - Flavor Text
 - Icon
 
+![GE](https://i.imgur.com/Z2nIzdY.png)
 ### $Flex
 Format: `$flex [Skill Name] [OSRS Username]`
 
@@ -20,7 +28,7 @@ This command is only available to those who have a registered account.
 
 To use this command, put the account you would like to compare your account to in the OSRS Username field. The bot will then direct message you and ask what skill you would like to compare. After you have provided a proper skill, it will submit the amount of difference between your account and the account provided with a bar graph.
 
-![flex](https://i.imgur.com/dJxtczj.png)
+![flex](https://i.imgur.com/PIJegbt.png)
 ### $History
 Format: `$history [NONE|week|month|all]`
 
@@ -35,7 +43,7 @@ You must have a "Mod" role to use this command
 
 Registers a Runescape username to a Discord account. A mod may use this command on a Discord user to register their account to that particular discord server. Once you invoke the command, the bot will ask what OSRS username you would like to register to that account. If done properly, it should enable the ability to use the $flex command as well as using defaults on the $stats, $pie and $combat commands. The bot will walk you through the registration process, and will tell you when it has completed properly.
 
-![register](https://i.imgur.com/BTjCDFJ.png)
+![register](https://i.imgur.com/af2qu2V.png)
 ### $Pie
 Format: `$Pie [OSRS Username]`
 
@@ -43,7 +51,7 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 
 Gets and displays the statistics for an OSRS username in pie chart form. It seperates the pie based on XP. If the username's statistics cannot be found then the bot will notify the user of this.
 
-![pie](https://i.imgur.com/pUfDwct.png)
+![pie](https://i.imgur.com/l7o63EX.png)
 ### $Stats
 Format: `$Stats [OSRS Username]`
 
@@ -51,7 +59,7 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 
 Gets and displays the statistics for the OSRS username that was provided, if the username's statistics cannot be found then the bot will notify the user of this.
 
-![stats](https://i.imgur.com/WxwJOrx.png)
+![stats](https://i.imgur.com/III0bA2.png)
 ### $Combat
 Format: `$Combat [OSRS Username]`
 
@@ -59,7 +67,7 @@ If the `[OSRS Username]` is left blank and your account is registered, then the 
 
 Gets and displays the combat statistics for is OSRS username that was provided. If the username's statistics cannot be found then the bot will notify the user of this. The bot also displays the breakdown of how their combat lvl is calculated.
 
-![combat](https://i.imgur.com/gaHxJIG.png)
+![combat](https://i.imgur.com/XeK42r8.png)
 ### $Users
 Format: `$Users`
 
@@ -91,4 +99,4 @@ Beautiful Soup is a python library that allows the bot to get information off of
 ## Future Plans:
 - Weekly gain leaderboard posted every sunday
 - Website for the bot
-- Ability to add roles by just clicking on 
+- Ability to add roles by reacting to the bot with an emoji (Discord Feature)
