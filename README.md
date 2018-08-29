@@ -14,7 +14,7 @@ Looks up the given item and returns its:
 - Icon
 
 ### $Flex
-Format: `$flex [OSRS Username]`
+Format: `$flex [Skill Name] [OSRS Username]`
 
 This command is only available to those who have a registered account.
 
@@ -29,11 +29,11 @@ This command is only available to those who have a registered account.
 This command will display the amount of XP that you have gained since the last XP snaphot (currently taken at 4AM PST) if you do not put anything after the command. Effectively this shows you the amount of XP that you have gained in the last 24 hours. If the bot has been tracking you for long enough, then you can use the week, month, or all option to show the amount of XP gained in the last week, month or since you started tracking your stats.
 
 ### $Register
-Format: `$Register [OSRS Username]`
+Format: `$Register @[Discord User]`
 
 You must have a "Mod" role to use this command
 
-Registers a Runescape username to a Discord account. If done properly, it should enable the ability to use the $flex command as well as using defaults on the $stats, $pie and $combat commands.
+Registers a Runescape username to a Discord account. A mod may use this command on a Discord user to register their account to that particular discord server. Once you invoke the command, the bot will ask what OSRS username you would like to register to that account. If done properly, it should enable the ability to use the $flex command as well as using defaults on the $stats, $pie and $combat commands. The bot will walk you through the registration process, and will tell you when it has completed properly.
 
 ![register](https://i.imgur.com/BTjCDFJ.png)
 ### $Pie
@@ -67,9 +67,11 @@ Gets and displays the OSRS usernames that have been registered to the server so 
 
 ![users](https://i.imgur.com/6sFOjtl.png)
 ### $Leaderboard
-Format: `$Leaderboard [skill name]`
+Format: `$Leaderboard [Skill Name]`
 
-Gets and displays the leaderboard for the skill provided, if the skill cannot be found then the user will be notified with a DM that that skill could not be found. If the skill is not named, then the leaderboard of all skills is displayed along with the name of the person with the highest amount of XP in that skill.
+Gets and displays the leaderboard for the skill provided, if the skill cannot be found then the user will be notified with a DM that that skill could not be found. 
+
+If the `[Skill Name]` is left blank then the leaderboard of all skills is displayed along with the name of the person with the highest amount of XP in that skill.
 
 ![LB](https://i.imgur.com/HaCKXvI.png)
 ## Sources:
