@@ -1,5 +1,4 @@
-# Magic Logs
-![MagicLogs](https://vignette.wikia.nocookie.net/2007scape/images/a/ac/Magic_logs_detail_animated.gif/revision/latest?cb=20180205042632)
+# Magic Logs ![MagicLogs](https://vignette.wikia.nocookie.net/2007scape/images/a/ac/Magic_logs_detail_animated.gif/revision/latest?cb=20180205042632)
 
 **Magic Logs** is a python script that runs a Discord bot. Discord is a chat service that keeps conversations that have many users organized. The general purpose of the bot is to retrieve, display, and track Old School Runescape account statistics within Discord.  
 
