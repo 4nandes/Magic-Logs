@@ -100,8 +100,9 @@ https://www.crummy.com/software/BeautifulSoup/
 
 Beautiful Soup is a python library that allows the bot to get information off of the OSRS hiscore website.
 
-## Future Plans:
-- Weekly gain leaderboard posted every sunday
+## Future Plans: (In no particular order)
+- ~~Weekly gain leaderboard posted every sunday~~ (Should be completed, but may have bugs still)
+- Move from Sqlite3 to Postresql
 - Website for the bot
 - Ability to add roles by reacting to the bot with an emoji (Discord Feature)
 - Improve stability so that the bot can exist on many servers. At the moment it is not stable enough to be on more than one
