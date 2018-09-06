@@ -34,7 +34,7 @@ class GrandExchange:
             else:
                 color = 0x3498db
             try:
-                dfs = pd.read_html('http://oldschoolrunescape.wikia.com/wiki/{}'.format(item.replace(" ","_")))
+                dfs = pd.read_html('http://oldschoolrunescape.wikia.com/wiki/{}'.format(sauce['item']['name'].replace(" ","_")))
                 natRune = requests.get("http://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json?item=561").json()
                 if str(sauce['item']['current']['price']).endswith('m'):
                     itemValue = float(str(sauce['item']['current']['price'])[:-1]) * 1000000
