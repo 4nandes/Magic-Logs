@@ -3,6 +3,7 @@ from discord import utils
 from lib.beautInfo import beautInfo
 from lib.database import database
 import datetime as dt
+from datetime import datetime, timedelta, date, time
 import re
 
 class ModCommands:
@@ -41,7 +42,10 @@ class ModCommands:
                     for x in range(0,24):
                         inserter.append(data[x].split(",")[1])
                         inserter.append(data[x].split(",")[2])
-                    inserter.append(dt.date.today())
+                    if time(0,00) <= datetime.now().time() <= time(4,00):     
+                        inserter.append(dt.date.today() - dt.timedelta(days=1))
+                    else:
+                        inserter.append(dt.date.today())
                     if not database().insertStats(inserter):
                         name = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
                         await self.bot.say("That username has been registered with the OldSchool RuneScape account: **{}** in another server\nIf this was your doing, great. If it is not, contact dev.".format(name))
