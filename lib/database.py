@@ -26,6 +26,10 @@ class database:
         self.c.execute("SELECT runescapeUsername, {}XP, {}Lvl FROM Statistic GROUP BY runescapeUsername ORDER BY {}XP DESC".format(skillName,skillName,skillName))
         return self.c.fetchall()
     
+    def datelist(self):
+        self.c.execute("SELECT MIN(timeStamp), runescapeUsername FROM Statistic GROUP BY runescapeUsername")
+        return self.c.fetchall()
+
     def firstStatsXP(self, username):
         self.c.execute("""SELECT overallXP, attackXP, defenceXP, 
                                 strengthXP, hitpointsXP, rangedXP, 

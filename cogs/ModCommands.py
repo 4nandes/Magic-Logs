@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import embeds
 from discord import utils
 from lib.beautInfo import beautInfo
 from lib.database import database
@@ -59,6 +60,20 @@ class ModCommands:
                 return
         else:
             await self.bot.say("This is a Moderator only commmand")
+            return
+
+    @commands.command(pass_context = True, aliases=['clan'], brief='This command will display the names of the members of the clan along with when their first recorded statistic check has been', help= 'Format:\n   $Clan')
+    async def Clan(self, ctx):
+        if utils.get(ctx.message.author.roles, name="Mod"):
+            info = database().datelist()
+            msg = ''
+            for x in range(0,len(info)):
+                msg += "`" + info[x][0] + "."*(20-len(info[x][0])) + info[x][1] + "`\n"
+            emb = embeds.Embed(title='**Earliest Known Register Dates:**', description=msg, color=0x11806a)
+            await self.bot.say(embed=emb)
+            return
+        else:
+            await self.bot.say("This is a Moderator only command")
             return
 
 def setup(bot):
