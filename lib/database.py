@@ -27,7 +27,7 @@ class database:
         return self.c.fetchall()
     
     def datelist(self):
-        self.c.execute("SELECT MIN(timeStamp), runescapeUsername FROM Statistic GROUP BY runescapeUsername")
+        self.c.execute("SELECT MIN(timeStamp), runescapeUsername FROM Statistic GROUP BY runescapeUsername ORDER BY MIN(timeStamp) ASC")
         return self.c.fetchall()
 
     def firstStatsXP(self, username):
