@@ -33,7 +33,7 @@ class ModCommands:
                 #Uses regular expressions to see if their response starts with a Y or y
                 if re.match('([y])|([Y])', yesOrNo.content):
                     #Prints out
-                    discName = await self.bot.get_user_info(discMention[2:-1]) 
+                    discName = await self.bot.get_user_info(discMention[2:-1].replace("!","")) 
                     await self.bot.say("Associating Discord account: **{}**\nOldSchool RuneScape account: **{}**\n".format(discName, username))
                     #Inserts them into the Database
                     if not database().newUser(discMention[2:-1],username,ctx.message.server.id):

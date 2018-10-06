@@ -37,7 +37,7 @@ class ServerStats:
         info = database().userList(ctx.message.server.id)
         msg = ''
         for x in range(0,len(info)):
-            leaderNick = await self.bot.get_user_info(info[x][1]) 
+            leaderNick = await self.bot.get_user_info(info[x][1].replace("!","")) 
             msg +=  "`" + info[x][0] + "."*(20-len(info[x][0])) + str(leaderNick) + "`\n"
         emb = embeds.Embed(title='**Registered OSRS Accounts:**', description=msg, color=0x11806a)
         await self.bot.say(embed=emb)
