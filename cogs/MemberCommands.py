@@ -79,8 +79,11 @@ class MemberCommands:
     # because this seems like a situation that is ripe for a decorator
     @commands.command(pass_context=True, aliases=['history','H','h'], brief='Shows the XP gained in a day, week, or month', help='Format:\n   $History [NONE|week|month|all]')
     async def History(self,ctx):
+        # Grab the time frame that the user is trying to get their stats from
         reportLength = " ".join(ctx.message.content.split(" ")[1:]).lower()
+        # grab their username from the database function
         username = database().searchDefault(ctx.message.author.id,ctx.message.server.id)
+        # create the placeholder for the message that will be sent to the user 
         msg = ""
         if username == "":
             await self.bot.say("You must be registered to use this command")
@@ -93,6 +96,7 @@ class MemberCommands:
                 day = (day - dt.timedelta(days=1))
                 msg = "**{}**".format(day - dt.timedelta(days=1))
             dataThen = database().getStatsXP(username, day)
+        # Week and month are essentially the same thing
         elif reportLength == "week":
             compareDate = (date.today() - dt.timedelta(days=7))
             msg += "**{}**".format(compareDate)
@@ -101,12 +105,13 @@ class MemberCommands:
             compareDate = (date.today() - dt.timedelta(days=30))
             msg += "**{}**".format(compareDate)
             dataThen = database().getStatsXP(username, compareDate)
+        # Will just pull from the first available stats that that person has on file
         elif reportLength == "all":
             dataThen = database().firstStatsXP(username)
             msg += "**{}**".format(dataThen[24])
         else:
             await self.bot.say("Accepted timeframes:\n`week`\n`month`\n`all`")
-            return
+            return      
         dataNow = beautInfo().userStats(username)
         try:
             for x in range(1,24):
