@@ -61,20 +61,17 @@ class ModCommands:
             await self.bot.say("Aborting...")
             return
 
+    @commands.has_role("Mod")
     @commands.command(pass_context = True, aliases=['clan'], brief='This command will display the names of the members of the clan along with when their first recorded statistic check has been', help= 'Format:\n   $Clan')
     async def Clan(self, ctx):
-        if utils.get(ctx.message.author.roles, name="Mod"):
-            info = database().datelist()
-            msg = ''
-            for x in range(0,len(info)):
-                msg += "`" + info[x][0] + "."*(20-len(info[x][0])) + info[x][1] + "`\n"
-            emb = embeds.Embed(title='**Earliest Known Register Dates:**', description=msg, color=0x11806a)
-            await self.bot.say(embed=emb)
-            return
-        else:
-            await self.bot.say("This is a Moderator only command")
-            return
-    
+        info = database().datelist()
+        msg = ''
+        for x in range(0,len(info)):
+            msg += "`" + info[x][0] + "."*(20-len(info[x][0])) + info[x][1] + "`\n"
+        emb = embeds.Embed(title='**Earliest Known Register Dates:**', description=msg, color=0x11806a)
+        await self.bot.say(embed=emb)
+        return
+
     @commands.command(pass_context = True, aliases=['name'], brief='This command allows for mods of the server to change the stored names in the database.', help= 'Format:\n   $Name')
     async def Name(self,ctx):
         isMod = utils.get(ctx.message.author.roles, name="Mod")

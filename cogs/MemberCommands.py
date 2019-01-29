@@ -77,6 +77,8 @@ class MemberCommands:
         
     # This is fine and dandy but in the end I really need to learn how decorators work
     # because this seems like a situation that is ripe for a decorator
+    # THOUGHT   The actual recording should all be handled over in the database side of things I think.
+    # that would compartmentalize the different aspects of the bot and let this code become far more cleaner down the line
     @commands.command(pass_context=True, aliases=['history','H','h'], brief='Shows the XP gained in a day, week, or month', help='Format:\n   $History [NONE|week|month|all]')
     async def History(self,ctx):
         # Grab the time frame that the user is trying to get their stats from
@@ -92,6 +94,8 @@ class MemberCommands:
             msg += "**{}**".format(date.today())
             now = datetime.now()
             day = date.today()
+            # Right here below me, this is where the issue is having two different time libraries is a pain in the ass
+            # To add to that, I have a kinda bad piece of code here that only serves to find out if it is between midnight and 4am
             if time(0,00) <= now.time() <= time(4,00):
                 day = (day - dt.timedelta(days=1))
                 msg = "**{}**".format(day - dt.timedelta(days=1))
