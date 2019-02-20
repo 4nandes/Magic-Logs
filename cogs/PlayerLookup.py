@@ -150,6 +150,7 @@ class PlayerLookup:
         emb = embeds.Embed(title=title,description=msg, color=0x206694)
         await self.bot.say(embed=emb)
         return
+        
 def setup(bot):
     bot.add_cog(PlayerLookup(bot))
     print("LOADED")
